@@ -13,7 +13,7 @@ Spectial thanks to [Fast Mask RCNN](https://github.com/CharlesShang/FastMaskRCNN
 - [x] Training code
 - [ ] Test the FastRCNN with ROI Algin (In progress)
 - [ ] MaskRCNN using ResNet-50-C4 (4/12)
-- [ ] FPN backbone (4/14)
+- [ ] FPN backbone (4/14)   
 - [ ] Testing all code
 - [ ] Turing hyper-parameters
 - [ ] Considering removing dependency of numpy and cython

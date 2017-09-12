@@ -55,7 +55,7 @@ exp_group.add_argument('--evaluate', dest='evaluate', default='',
                        ' (default: training mode)')
 exp_group.add_argument('-f', '--force', dest='force', action='store_true',
                        help='force to overwrite existing save path')
-exp_group.add_argument('--print-freq', '-p', default=100, type=int,
+exp_group.add_argument('--print-freq', '-p', default=10, type=int,
                        metavar='N', help='print frequency (default: 100)')
 exp_group.add_argument('--no_tensorboard', dest='tensorboard',
                        action='store_false',
@@ -286,34 +286,34 @@ def main():
                            i, args.eval_freq)
         i += args.eval_freq - 1
 
-        # evaluate on validation set
-        val_ap = validate(val_loader, model, i)
-
-        # save scores to a tsv file, rewrite the whole file to prevent
-        # accidental deletion
-        scores.append(('{}\t{}' + '\t{:.4f}' * 2)
-                      .format(i, lr, train_loss, val_ap))
-        with open(os.path.join(args.save, 'scores.tsv'), 'w') as f:
-            print('\n'.join(scores), file=f)
-
-        # remember best err@1 and save checkpoint
-        # TODO: change this
-        is_best = val_ap > best_ap
-        if is_best:
-            best_ap = val_ap
-            best_iter = i
-            print(Fore.GREEN + 'Best var_err1 {}'.format(best_ap) +
-                  Fore.RESET)
-        save_checkpoint({
-            'args': args,
-            'iter': i,
-            'best_iter': best_iter,
-            'arch': args.arch,
-            'state_dict': model.state_dict(),
-            'best_ap': best_ap,
-        }, is_best, args.save)
-        if not is_best and i - best_iter >= args.patience > 0:
-            break
+        # # evaluate on validation set
+        # val_ap = validate(val_loader, model, i)
+        #
+        # # save scores to a tsv file, rewrite the whole file to prevent
+        # # accidental deletion
+        # scores.append(('{}\t{}' + '\t{:.4f}' * 2)
+        #               .format(i, lr, train_loss, val_ap))
+        # with open(os.path.join(args.save, 'scores.tsv'), 'w') as f:
+        #     print('\n'.join(scores), file=f)
+        #
+        # # remember best err@1 and save checkpoint
+        # # TODO: change this
+        # is_best = val_ap > best_ap
+        # if is_best:
+        #     best_ap = val_ap
+        #     best_iter = i
+        #     print(Fore.GREEN + 'Best var_err1 {}'.format(best_ap) +
+        #           Fore.RESET)
+        # save_checkpoint({
+        #     'args': args,
+        #     'iter': i,
+        #     'best_iter': best_iter,
+        #     'arch': args.arch,
+        #     'state_dict': model.state_dict(),
+        #     'best_ap': best_ap,
+        # }, is_best, args.save)
+        # if not is_best and i - best_iter >= args.patience > 0:
+        #     break
     print('Best val_ap: {:.4f} at iter {}'.format(best_ap, best_iter))
 
 
