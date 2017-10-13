@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+</head>
+<body>
+
+<button onclick="instagramclick()">Login to instagram</button>
+<button onclick="myFunction()">Test Button</button>
+
+<script>
+
+function myFunction() {
+    alert("Hello World");
+}
+
+function instagramclick(){
+    alert("button clicked");
+    window.location.href = "https://instagram.com/oauth/authorize/?client_id=8a612cd650344523808233c0468c80ed&redirect_uri=http://u-ahmed.github.io/HookedUp/instagram.html&response_type=token";
+}
+
+function WriteDemo(link)
+{
+ var fso, f, r;
+ var ForReading = 1, ForWriting = 2;
+ fso = new ActiveXObject("Scripting.FileSystemObject");
+ f = fso.OpenTextFile("database.txt", ForWriting, true);
+ f.Write(link);
+ f.Close();
+ r = f.ReadLine();
+return(r);
+}
+
+window.onload = function writedamnyou(){
+var token = window.location.href.substring(62);
+if (token != ""){
+    // document.write(token);
+    var link = "https://api.instagram.com/v1/users/self/feed?access_token=" + token;
+    // w = window.open('database.txt')
+    WriteDemo(link);
+  // document.write(stuff);
+
+
+}
+};
+
+</script>
+<p id="no"></p>
+</body>
+</html>

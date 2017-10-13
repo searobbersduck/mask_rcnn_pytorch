@@ -33,13 +33,13 @@ from .roi_align.modules.roi_align import RoIAlignAvg
 
 
 # TODO: for demo
-# def nms_detections(pred_boxes, scores, nms_thresh, inds=None):
-#     dets = np.hstack((pred_boxes,
-#                       scores[:, np.newaxis])).astype(np.float32)
-#     keep = nms(dets, nms_thresh)
-#     if inds is None:
-#         return pred_boxes[keep], scores[keep]
-#     return pred_boxes[keep], scores[keep], inds[keep]
+def nms_detections(pred_boxes, scores, nms_thresh, inds=None):
+    dets = np.hstack((pred_boxes,
+                      scores[:, np.newaxis])).astype(np.float32)
+    keep = nms(dets, nms_thresh)
+    if inds is None:
+        return pred_boxes[keep], scores[keep]
+    return pred_boxes[keep], scores[keep], inds[keep]
 
 def np_to_variable(x, is_cuda=True, dtype=torch.FloatTensor, requires_grad=False):
     if is_cuda:
@@ -195,7 +195,8 @@ def np_to_variable(x, is_cuda=True, dtype=torch.FloatTensor, requires_grad=False
 
 class RegionProposalNetwork(nn.Module):
     _feat_stride = [16, ]
-    anchor_scales = [2, 4, 8, 16, 32]
+    # anchor_scales = [2, 4, 8, 16, 32]
+    anchor_scales = [8, 16, 32]
 
     def __init__(self, backbone='resnet-50-c4', debug=False):
         super(RegionProposalNetwork, self).__init__()
@@ -502,9 +503,9 @@ class FasterRCNN(nn.Module):
 
         # nms
         if nms and pred_boxes.shape[0] > 0:
-            pred_boxes, scores, inds = nms_detections(pred_boxes, scores, 0.3, inds=inds)
+            pred_boxes, scores, inds = nms_detections(pred_boxes, scores, 0.1, inds=inds)
 
-        return scores, pred_boxes
+        return scores, pred_boxes, inds
 
     # TODO: modify this part
     # def detect(self, image, thr=0.3):
