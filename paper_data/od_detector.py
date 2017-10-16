@@ -247,6 +247,34 @@ def cls_train(train_data_loader, model, criterion, optimizer, epoch, display):
             logger.append(print_info)
     return logger
 
+def cls_val(val_data_loader, model, criterion, display):
+    model.eval()
+    batch_time = AverageMeter()
+    data_time = AverageMeter()
+    losses = AverageMeter()
+    end = time.time()
+    logger = []
+    trans = ToPILImage()
+    for num_iter, (images, anns, image_paths, bboxs) in enumerate(val_data_loader):
+        data_time.update(time.time() - end)
+        # bbox_od = Variable(anns[0]['bbox'].type(torch.FloatTensor).cuda())
+        bbox_od = Variable(bboxs.type(torch.FloatTensor).cuda())
+        final, map = model(Variable(images))
+        loss = criterion(final, bbox_od)
+        batch_time.update(time.time() - end)
+        losses.update(loss.data[0], images.size(0))
+        end = time.time()
+        # im2show = np.copy(np.array(trans(images[0])))
+        if num_iter % display == 0:
+            print_info = 'Eval: [{iter}/{tot}]\t' \
+                         'Time {batch_time.val:.3f} ({batch_time.avg:.3f})\t' \
+                         'Data {data_time.avg:.3f}\t' 'Loss {loss.avg:.4f}\t' \
+                         ''.format(iter = num_iter, tot = len(val_data_loader), batch_time=batch_time,
+                                   data_time=data_time, loss=losses)
+            print(print_info)
+            logger.append(print_info)
+    return logger, losses.avg
+
 def cls_eval(val_data_loader, model, criterion, display):
     model.eval()
     batch_time = AverageMeter()
@@ -321,12 +349,18 @@ def main():
         os.makedirs(output_dir)
     print('====> Building model:')
     model = cls_model(opt.model, opt.crop, 2, opt.weight)
-    criterion = torch.nn.L1Loss()
+    criterion = torch.nn.MSELoss()
+    best_loss = 1e4
     if opt.phase == 'train':
         print('====> Training model:')
-        dataloader = torch.utils.data.DataLoader(
+        dataloader_train = torch.utils.data.DataLoader(
             DRDetectionDS_xml('/home/weidong/code/github/mask_rcnn_pytorch/paper_data/data/dr_ann',
                               '/home/weidong/code/github/mask_rcnn_pytorch/paper_data/data/dr_ann',
+                              512),
+            shuffle=True, pin_memory=True, batch_size=10)
+        dataloader_val = torch.utils.data.DataLoader(
+            DRDetectionDS_xml('/home/weidong/code/github/mask_rcnn_pytorch/paper_data/data/data',
+                              '/home/weidong/code/github/mask_rcnn_pytorch/paper_data/data/data',
                               512),
             shuffle=True, pin_memory=True, batch_size=10)
         for epoch in range(opt.epoch):
@@ -336,24 +370,38 @@ def main():
                 lr = opt.lr * (0.1 ** (epoch // opt.step))
             optimizer = optim.SGD([{'params': model.base.parameters()}, {'params': model.cls.parameters()}], lr=opt.lr,
                                   momentum=opt.mom, weight_decay=opt.wd, nesterov=True)
-            logger = cls_train(dataloader, nn.DataParallel(model).cuda(), criterion, optimizer, epoch, opt.display)
-            if epoch % 100 == 0:
+            logger = cls_train(dataloader_train, nn.DataParallel(model).cuda(), criterion, optimizer, epoch, opt.display)
+            # if epoch % 100 == 0:
+            #     torch.save(model.cpu().state_dict(), os.path.join(output_dir,
+            #                                                       opt.dataset + '_od_and_fovea_detection_' + opt.model + '_%05d' % epoch + '_best.pth'))
+            #     print('====> Save model: {}'.format(
+            #         os.path.join(output_dir,
+            #                      opt.dataset + '_od_and_fovea_detection_' + opt.model + '_%05d' % epoch + '_best.pth')))
+            # if not os.path.isfile(os.path.join(output_dir, 'train.log')):
+            #     with open(os.path.join(output_dir, 'train.log'), 'w') as fp:
+            #         fp.write(str(opt)+'\n\n')
+            # with open(os.path.join(output_dir, 'train.log'), 'a') as fp:
+            #     fp.write('\n' + '\n'.join(logger))
+
+            logger_val, loss_val = cls_val(dataloader_val, nn.DataParallel(model).cuda(), criterion, opt.display)
+            if loss_val < best_loss:
+                best_loss = loss_val
+                print('====> Current best validation loss is: {}'.format(best_loss))
                 torch.save(model.cpu().state_dict(), os.path.join(output_dir,
-                                                                  opt.dataset + '_od_and_fovea_detection_' + opt.model + '_%05d' % epoch + '_best.pth'))
-                print('====> Save model: {}'.format(
-                    os.path.join(output_dir,
-                                 opt.dataset + '_od_and_fovea_detection_' + opt.model + '_%05d' % epoch + '_best.pth')))
+                                                              opt.dataset + '_od_and_fovea_detection_' + opt.model + '_%05d' % epoch + '_best.pth'))
+                print('====> Save model: {}'.format(os.path.join(output_dir, opt.dataset + '_od_and_fovea_detection_' + opt.model + '_%05d' % epoch + '_best.pth')))
             if not os.path.isfile(os.path.join(output_dir, 'train.log')):
                 with open(os.path.join(output_dir, 'train.log'), 'w') as fp:
                     fp.write(str(opt)+'\n\n')
             with open(os.path.join(output_dir, 'train.log'), 'a') as fp:
                 fp.write('\n' + '\n'.join(logger))
+                fp.write('\n' + '\n'.join(logger_val))
     elif opt.phase == 'test':
         if opt.weight:
             print('====> Evaluating model')
             dataloader = torch.utils.data.DataLoader(
-                DRDetectionDS_xml('/home/weidong/code/github/mask_rcnn_pytorch/paper_data/data/data',
-                                  '/home/weidong/code/github/mask_rcnn_pytorch/paper_data/data/data',
+                DRDetectionDS_xml('/home/weidong/code/github/mask_rcnn_pytorch/paper_data/data/dr_ann',
+                                  '/home/weidong/code/github/mask_rcnn_pytorch/paper_data/data/dr_ann',
                                   512),
                 shuffle=False, pin_memory=False, batch_size=1)
             logger = cls_eval(dataloader, nn.DataParallel(model).cuda(), criterion, opt.display)
