@@ -1,0 +1,254 @@
+'''
+
+1. import retinal image (any size)
+2. resize image to 512
+3. record the resize ratio for resizing the output predicted annotation result to raw size
+
+'''
+
+
+import sys
+sys.path.append('../')
+from utils import PILColorJitter, AverageMeter
+import torchvision.transforms as transforms
+from torch.utils.data import Dataset, DataLoader
+from glob import glob
+import os
+from PIL import Image
+import numpy as np
+import xml.etree.ElementTree as ET
+import cv2
+import math
+
+class DRDetectionDS_predict(Dataset):
+    def __init__(self, root, scale_size=None):
+        super(DRDetectionDS_predict, self).__init__()
+        self.root = root
+        self.scale_size = scale_size
+        self.transform = transforms.Compose([
+            PILColorJitter(),
+            transforms.ToTensor(),
+            # Lighting(alphastd=0.01, eigval=eigen_values, eigvec=eigen_values),
+            transforms.Normalize(mean=[0.485, 0.456, 0.406],
+                                 std=[0.229, 0.224, 0.225])
+        ])
+        self.img_list = glob(os.path.join(root, '*.png'))
+        self.data_list = []
+        self.ann_info_list = []
+        self.bboxs_list = []
+        self.bboxs_c_list = []
+
+    def __getitem__(self, item):
+        image_path = self.img_list[item]
+        img = Image.open(image_path)
+
+        img = self.transform(img)
+
+        return img, image_path, image_path, image_path, image_path
+
+    def __len__(self):
+        return len(self.img_list)
+
+def test_DRDetectionDS_predict():
+    root = '/home/weidong/code/github/DiabeticRetinopathy_solution/data/zhizhen_new/LabelImages/512'
+    ds = DRDetectionDS_predict(root, None)
+    dataloader = DataLoader(ds, batch_size=2, shuffle=False)
+    for index, (imgs, _, images_path, _, _) in enumerate(dataloader):
+        pil_img = transforms.ToPILImage()(imgs[0])
+        pil_img.show()
+
+
+def scale_image(pil_img, scale_size):
+    w, h = pil_img.size
+    w0, h0 = pil_img.size
+    tw, th = (min(w, h), min(w, h))
+    tw0, th0 = (tw, th)
+    image = pil_img.crop((w // 2 - tw // 2, h // 2 - th // 2, w // 2 + tw // 2, h // 2 + th // 2))
+    w, h = image.size
+    tw, th = (scale_size, scale_size)
+    ratio = tw / w
+    assert ratio == th / h
+    if ratio < 1:
+        image = image.resize((tw, th), Image.ANTIALIAS)
+    elif ratio > 1:
+        image = image.resize((tw, th), Image.CUBIC)
+    return image, w0 // 2 - tw0 // 2, h0 // 2 - th0 // 2, ratio
+
+def pts_trans(pts, l, u, ratio):
+    pts_trans = np.array([], dtype=int)
+    for i in range(len(pts)):
+        if i % 2 == 0:
+            pts_trans = np.append(pts_trans, int((pts[i]-l)*ratio))
+        else:
+            pts_trans = np.append(pts_trans, int((pts[i]-u)*ratio))
+    return pts_trans
+
+def pts_trans_inv(pts, l, u, ratio):
+    pts_trans = np.array([], dtype=int)
+    for i in range(len(pts)):
+        if i % 2 == 0:
+            pts_trans = np.append(pts_trans, int((pts[i]/ratio+l)))
+        else:
+            pts_trans = np.append(pts_trans, int((pts[i]/ratio+u)))
+    return pts_trans
+
+def cal_iou(bbox1, bbox2):
+    x1 = max(bbox1[0], bbox2[0])
+    y1 = max(bbox1[1], bbox2[1])
+    x2 = min(bbox1[2], bbox2[2])
+    y2 = min(bbox1[3], bbox2[3])
+    w_i = max(0, x2-x1)
+    h_i = max(0, y2-y1)
+    a_i = w_i*h_i
+    a_1 = int(bbox1[2]-bbox1[0])*int(bbox1[3]-bbox1[1])
+    a_2 = int(bbox2[2] - bbox2[0]) * int(bbox2[3] - bbox2[1])
+    a_u = a_1+a_2-a_i
+    iou = a_i/a_u
+    return iou
+
+def read_xml(xml_file, ann_root):
+        xml_file = os.path.join(ann_root, xml_file+'.xml')
+        tree = ET.parse(xml_file)
+        anns = []
+        pts = np.array([], dtype=int)
+        pts_c = np.array([], dtype=int)
+        for obj in tree.getiterator('object'):
+            if (obj.find('name').text == 'optic_disk' or obj.find('name').text == 'optic_disc' or obj.find('name').text == 'optic-disc'):
+                ann = {}
+                # ann['cls_id'] = obj.find('name').text
+                ann['ordered_id'] = 1 if (obj.find('name').text == 'optic_disk' or obj.find('name').text == 'optic_disc') else 2
+                # ann['bbox'] = [0] * 4
+                xmin = obj.find('bndbox').find('xmin')
+                ymin = obj.find('bndbox').find('ymin')
+                xmax = obj.find('bndbox').find('xmax')
+                ymax = obj.find('bndbox').find('ymax')
+                ann['bbox'] = np.array([int(xmin.text), int(ymin.text), int(xmax.text), int(ymax.text)])
+                ann['scale_ratio'] = 1
+                ann['area'] = (int(ymax.text)-int(ymin.text)) * (int(xmax.text)-int(xmin.text))
+                anns.append(ann)
+                pts = np.append(pts, np.array([int(xmin.text), int(ymin.text), int(xmax.text), int(ymax.text)]))
+                pts_c = np.append(pts_c, np.array([int(xmin.text), int(ymin.text), int(xmax.text), int(ymax.text)]))
+        for obj in tree.getiterator('object'):
+            if obj.find('name').text == 'macular':
+                ann = {}
+                # ann['cls_id'] = obj.find('name').text
+                ann['ordered_id'] = 1 if (obj.find('name').text == 'optic_disk' or obj.find('name').text == 'optic_disc' or obj.find('name').text == 'optic-disc') else 2
+                # ann['bbox'] = [0] * 4
+                xmin = obj.find('bndbox').find('xmin')
+                ymin = obj.find('bndbox').find('ymin')
+                xmax = obj.find('bndbox').find('xmax')
+                ymax = obj.find('bndbox').find('ymax')
+                ann['bbox'] = np.array([int(xmin.text), int(ymin.text), int(xmax.text), int(ymax.text)])
+                ann['scale_ratio'] = 1
+                ann['area'] = (int(ymax.text)-int(ymin.text)) * (int(xmax.text)-int(xmin.text))
+                anns.append(ann)
+                pts = np.append(pts, np.array([int(xmin.text), int(ymin.text), int(xmax.text), int(ymax.text)]))
+                pts_c = np.append(pts_c, np.array([(int(xmin.text)+int(xmax.text))//2, (int(ymin.text)+int(ymax.text))//2]))
+        return anns,pts, pts_c[:6]
+
+
+class DRDetection_predict_raw(Dataset):
+    def __init__(self, root, ann_root, scale_size=None):
+        self.root = root
+        self.ann_root = ann_root
+        self.scale_size = scale_size
+        self.transform = transforms.Compose([
+            PILColorJitter(),
+            transforms.ToTensor(),
+            # Lighting(alphastd=0.01, eigval=eigen_values, eigvec=eigen_values),
+            transforms.Normalize(mean=[0.485, 0.456, 0.406],
+                                 std=[0.229, 0.224, 0.225])
+        ])
+        ann_list = glob(os.path.join(ann_root, '*.xml'))
+        img_list = glob(os.path.join(root, '*.jpg'))
+        img_list = [i.split('.')[0] for i in img_list]
+        ann_list = [i.split('.')[0] for i in ann_list]
+        self.data_list = []
+        self.ann_info_list = []
+        self.bboxs_list = []
+        self.bboxs_c_list = []
+        for ann in ann_list:
+            if ann in img_list:
+                self.data_list.append(ann)
+        for index in self.data_list:
+            anns, bbox, bbox_c = read_xml(index, self.ann_root)
+            self.ann_info_list.append(anns)
+            self.bboxs_list.append(bbox)
+            self.bboxs_c_list.append(bbox_c)
+
+    def __getitem__(self, item):
+        anns = self.ann_info_list[item]
+        image_path = os.path.join(self.root, self.data_list[item] + '.jpg')
+        print(image_path)
+        img = Image.open(image_path)
+        img, l, u, ratio = scale_image(img, self.scale_size)
+        img = self.transform(img)
+        return img, anns, image_path, \
+               pts_trans(self.bboxs_list[item], l, u, ratio), \
+               pts_trans(self.bboxs_c_list[item], l, u, ratio), [l,u,ratio]
+
+
+    def __len__(self):
+        return len(self.data_list)
+
+
+def test_DRDetection_predict_raw():
+    root = '//home/weidong/code/github/ex'
+    ds = DRDetection_predict_raw(root, root, 512)
+    dataloader = DataLoader(ds, batch_size=2, shuffle=False)
+    for i, (images, anns, images_path, bboxs, bboxs_c, params) in enumerate(dataloader):
+        pil_image = transforms.ToPILImage()(images[0])
+        cv_image = np.array(pil_image)
+        bbox = bboxs[0].numpy()
+        bbox = [int(x) for x in bbox]
+        bbox_c = bboxs_c[0].numpy()
+        bbox_c = [int(x) for x in bbox_c]
+        cv2.rectangle(cv_image, (bbox[0], bbox[1]), (bbox[2], bbox[3]), (255, 255, 0), 4)
+        cv2.rectangle(cv_image, (bbox[4], bbox[5]), (bbox[6], bbox[7]), (0, 255, 255), 4)
+        cv2.circle(cv_image, (bbox_c[4], bbox_c[5]), 4, (0, 255, 255))
+        cv2.imshow('test', cv_image)
+        cv2.waitKey(2000)
+        param = [params[0][0], params[1][0], params[2][0]]
+        bbox = pts_trans_inv(bbox, param[0], param[1], param[2])
+        bbox_c = pts_trans_inv(bbox_c, param[0], param[1], param[2])
+        pil_image = Image.open(images_path[0])
+        cv_image = np.array(pil_image)
+        cv_image = cv2.cvtColor(cv_image, cv2.COLOR_RGB2BGR)
+        cv2.rectangle(cv_image, (bbox[0], bbox[1]), (bbox[2], bbox[3]), (255, 255, 0), 4)
+        cv2.rectangle(cv_image, (bbox[4], bbox[5]), (bbox[6], bbox[7]), (0, 255, 255), 4)
+        cv2.circle(cv_image, (bbox_c[4], bbox_c[5]), 4, (0, 255, 255))
+        cv2.imshow('test', cv_image)
+        cv2.waitKey(2000)
+
+# check predicted fovea validation
+def get_detect_fovea_array(predict_pts, gt_pts, gt_od_bboxs, thres=0.5):
+    assert predict_pts.shape[0] == gt_pts.shape[0] == gt_od_bboxs.shape[0]
+    length = predict_pts.shape[0]
+    result = np.array([], dtype=int)
+    bias = np.array([], dtype=float)
+    for i in range(length):
+        od_w = gt_od_bboxs[i][2] - gt_od_bboxs[i][0]
+        od_h = gt_od_bboxs[i][3] - gt_od_bboxs[i][1]
+        r = max(od_w, od_h)/2
+        dis_thres = r * thres
+        dis_fovea = math.sqrt(pow(gt_pts[i][0]-predict_pts[i][0], 2)+pow(gt_pts[i][1]-predict_pts[i][1],2))
+        checked = 1 if (dis_fovea<dis_thres) else 0
+        result = np.append(result, checked)
+        bias = np.append(bias, dis_fovea/r)
+    return result, bias
+
+# check predict od validation
+def get_detect_od_array(predict_od_bboxs, gt_od_bboxs, thres=0.5):
+    assert predict_od_bboxs.shape[0] == gt_od_bboxs.shape[0]
+    length = predict_od_bboxs.shape[0]
+    result = np.array([], dtype=int)
+    for i in range(length):
+        iou = cal_iou(predict_od_bboxs[i], gt_od_bboxs[i])
+        checked = 1 if (iou > thres) else 0
+        result = np.append(result, checked)
+    return result, result.sum() / len(result)
+
+
+if __name__ == '__main__':
+    # test_DRDetectionDS_predict()
+    test_DRDetection_predict_raw()

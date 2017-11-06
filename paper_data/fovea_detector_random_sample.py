@@ -13,7 +13,7 @@ import cv2
 import numpy as np
 from PIL import Image
 import torchvision.transforms as transforms
-from torchvision.transforms import ToPILImage
+from torchvision.transforms import ToPILImage, Scale
 from torchvision.utils import make_grid, save_image
 from torch.autograd import Variable
 
@@ -38,6 +38,12 @@ import argparse
 import torch.backends.cudnn as cudnn
 
 from utils import PILColorJitter, Lighting
+
+from predict_common import DRDetectionDS_predict
+from predict_common import DRDetection_predict_raw, \
+    pts_trans_inv, scale_image, get_detect_od_array, get_detect_fovea_array
+
+import random
 
 def parse_args():
     parser = argparse.ArgumentParser(description='multi-task classification options')
@@ -73,8 +79,139 @@ def parse_args():
     return parser.parse_args()
 
 class DRDetectionDS_xml(Dataset):
-    def __init__(self, root, ann_root, scale_size=None):
+    def __init__(self, root, ann_root, crop, size, scale_size=None):
         super(DRDetectionDS_xml, self).__init__()
+        self.root = root
+        self.ann_root = ann_root
+        self.scale_size = scale_size
+        self.crop = crop
+        self.size = size
+        self.ratio = size/crop
+        self.padding = crop//2
+        self.transform = transforms.Compose([
+            Scale(self.size),
+            PILColorJitter(),
+            transforms.ToTensor(),
+            # Lighting(alphastd=0.01, eigval=eigen_values, eigvec=eigen_values),
+            transforms.Normalize(mean=[0.485, 0.456, 0.406],
+                                 std=[0.229, 0.224, 0.225])
+        ])
+        self.classid = ['optic_dis', 'macular']
+        ann_list = glob(os.path.join(ann_root, '*.xml'))
+        img_list = glob(os.path.join(root, '*.png'))
+        img_list = [i.split('.')[0] for i in img_list]
+        ann_list = [i.split('.')[0] for i in ann_list]
+        self.data_list = []
+        self.ann_info_list = []
+        self.bboxs_list = []
+        self.bboxs_c_list = []
+        for ann in ann_list:
+            if ann in img_list:
+                self.data_list.append(ann)
+        for index in self.data_list:
+            anns, bbox, bbox_c = self.__read_xml(index)
+            self.ann_info_list.append(anns)
+            self.bboxs_list.append(bbox)
+            self.bboxs_c_list.append(bbox_c)
+
+
+    def __read_xml(self, xml_file):
+        xml_file = os.path.join(self.ann_root, xml_file+'.xml')
+        tree = ET.parse(xml_file)
+        anns = []
+        pts = np.array([], dtype=int)
+        pts_c = np.array([], dtype=int)
+        for obj in tree.getiterator('object'):
+            if (obj.find('name').text == 'optic_disk' or obj.find('name').text == 'optic_disc' or obj.find('name').text == 'optic-disc'):
+                ann = {}
+                # ann['cls_id'] = obj.find('name').text
+                ann['ordered_id'] = 1 if (obj.find('name').text == 'optic_disk' or obj.find('name').text == 'optic_disc') else 2
+                # ann['bbox'] = [0] * 4
+                xmin = obj.find('bndbox').find('xmin')
+                ymin = obj.find('bndbox').find('ymin')
+                xmax = obj.find('bndbox').find('xmax')
+                ymax = obj.find('bndbox').find('ymax')
+                ann['bbox'] = np.array([int(xmin.text), int(ymin.text), int(xmax.text), int(ymax.text)])
+                ann['scale_ratio'] = 1
+                ann['area'] = (int(ymax.text)-int(ymin.text)) * (int(xmax.text)-int(xmin.text))
+                anns.append(ann)
+                pts = np.append(pts, np.array([int(xmin.text), int(ymin.text), int(xmax.text), int(ymax.text)]))
+                pts_c = np.append(pts_c, np.array([int(xmin.text), int(ymin.text), int(xmax.text), int(ymax.text)]))
+        for obj in tree.getiterator('object'):
+            if obj.find('name').text == 'macular':
+                ann = {}
+                # ann['cls_id'] = obj.find('name').text
+                ann['ordered_id'] = 1 if (obj.find('name').text == 'optic_disk' or obj.find('name').text == 'optic_disc' or obj.find('name').text == 'optic-disc') else 2
+                # ann['bbox'] = [0] * 4
+                xmin = obj.find('bndbox').find('xmin')
+                ymin = obj.find('bndbox').find('ymin')
+                xmax = obj.find('bndbox').find('xmax')
+                ymax = obj.find('bndbox').find('ymax')
+                ann['bbox'] = np.array([int(xmin.text), int(ymin.text), int(xmax.text), int(ymax.text)])
+                ann['scale_ratio'] = 1
+                ann['area'] = (int(ymax.text)-int(ymin.text)) * (int(xmax.text)-int(xmin.text))
+                anns.append(ann)
+                pts = np.append(pts, np.array([int(xmin.text), int(ymin.text), int(xmax.text), int(ymax.text)]))
+                pts_c = np.append(pts_c, np.array([(int(xmin.text)+int(xmax.text))//2, (int(ymin.text)+int(ymax.text))//2]))
+        return anns,pts, pts_c[4:6]
+
+    def __clamp(self, min_val, max_val, val):
+        return max(min_val, min(max_val, val))
+
+    def __bbox_trans(self, bboxs, l, u, ratio):
+        assert len(bboxs) == 8
+        pts = np.array([], dtype=int)
+        for i in range(len(bboxs)):
+            if i % 2 == 0:
+                pts = np.append(pts, self.__clamp(0, self.size-1, int((bboxs[i] - l) * ratio)))
+            else:
+                pts = np.append(pts, self.__clamp(0, self.size-1, int((bboxs[i] - u) * ratio)))
+        return pts
+
+    def __bbox_trans_center(self, bboxs, l, u, ratio):
+        assert len(bboxs) == 2
+        pts = np.array([], dtype=int)
+        for i in range(len(bboxs)):
+            if i % 2 == 0:
+                pts = np.append(pts, self.__clamp(0, self.size-1, int((bboxs[i] - l) * ratio)))
+            else:
+                pts = np.append(pts, self.__clamp(0, self.size-1, int((bboxs[i] - u) * ratio)))
+        return pts
+
+    def __get_random_bbox(self, padding, size):
+        x_center = random.randint(0 + padding, size - padding)
+        y_center = random.randint(0 + padding, size - padding)
+        return x_center - padding, y_center - padding, x_center + padding, y_center + padding
+
+
+    def __getitem__(self, item):
+        anns = self.ann_info_list[item]
+        image_path = os.path.join(self.root, self.data_list[item]+'.png')
+        img = Image.open(image_path)
+        l,u,r,b = self.__get_random_bbox(self.padding, self.size)
+        img = img.crop((l,u,r,b))
+
+        if self.scale_size is not None:
+            w,h = img.size
+            scale_ratio = self.scale_size/w if w<h else self.scale_size/h
+            if scale_ratio != 1:
+                img = img.resize((int(w*scale_ratio), int(h*scale_ratio)), Image.BILINEAR)
+                for ann in anns:
+                    ann['area'] *= scale_ratio**2
+                    ann['bbox'] = [x*scale_ratio for x in ann['bbox']]
+                    ann['scale_ratio'] = scale_ratio
+
+        img = self.transform(img)
+
+        return img, anns, image_path, self.__bbox_trans(self.bboxs_list[item], l, u, self.ratio), \
+               self.__bbox_trans_center(self.bboxs_c_list[item], l, u, self.ratio)
+
+    def __len__(self):
+        return len(self.data_list)
+
+class DRDetectionDS_predict_xml(Dataset):
+    def __init__(self, root, ann_root, scale_size=None):
+        super(DRDetectionDS_predict_xml, self).__init__()
         self.root = root
         self.ann_root = ann_root
         self.scale_size = scale_size
@@ -142,7 +279,7 @@ class DRDetectionDS_xml(Dataset):
                 anns.append(ann)
                 pts = np.append(pts, np.array([int(xmin.text), int(ymin.text), int(xmax.text), int(ymax.text)]))
                 pts_c = np.append(pts_c, np.array([(int(xmin.text)+int(xmax.text))//2, (int(ymin.text)+int(ymax.text))//2]))
-        return anns,pts, pts_c[:6]
+        return anns,pts, pts_c[4:6]
 
     def __getitem__(self, item):
         anns = self.ann_info_list[item]
@@ -165,6 +302,7 @@ class DRDetectionDS_xml(Dataset):
 
     def __len__(self):
         return len(self.data_list)
+
 
 def coco_collate(batch):
     "Puts each data field into a tensor with outer dimension batch size, or put collade recursively for dict"
@@ -252,7 +390,7 @@ class cls_model_c(nn.Module):
         if not scratch:
             base_model.load_state_dict(torch.load('../pretrained/'+name+'.pth'))
         self.base = nn.Sequential(*list(base_model.children())[:-2])
-        cls = nn.Sequential(nn.AvgPool2d(featmap), nn.Conv2d(planes, 3*2, kernel_size=1, stride=1, padding=0, bias=True))
+        cls = nn.Sequential(nn.AvgPool2d(featmap), nn.Conv2d(planes, 1*2, kernel_size=1, stride=1, padding=0, bias=True))
         initial_cls_weights(cls)
         self.cls = cls
         if weights:
@@ -350,11 +488,12 @@ def cls_eval(val_data_loader, model, criterion, display):
         im2show = np.copy(raw)
         bbox = final.data[0].cpu().numpy()
         bbox = [int(x) for x in bbox]
-        cv2.rectangle(im2show, (bbox[0], bbox[1]), (bbox[2], bbox[3]), (255, 255, 0), 4)
-        width = bbox[2] - bbox[0]
-        height = bbox[3] - bbox[1]
-
-        cv2.rectangle(im2show, (bbox[4]-width//2, bbox[5]-height//2), (bbox[4]+width//2, bbox[5]+height//2), (255, 255, 0), 4)
+        # cv2.rectangle(im2show, (bbox[0], bbox[1]), (bbox[2], bbox[3]), (255, 255, 0), 4)
+        # width = bbox[2] - bbox[0]
+        # height = bbox[3] - bbox[1]
+        #
+        # cv2.rectangle(im2show, (bbox[4]-width//2, bbox[5]-height//2), (bbox[4]+width//2, bbox[5]+height//2), (0, 255, 255), 4)
+        cv2.rectangle(im2show, (bbox[0] - 20, bbox[1] - 20), (bbox[0] + 20, bbox[1] + 20), (255, 255, 0), 4)
         cv2.imshow('test', im2show)
         cv2.waitKey(2000)
         if num_iter % display == 0:
@@ -365,6 +504,87 @@ def cls_eval(val_data_loader, model, criterion, display):
                                    data_time=data_time, loss=losses)
             print(print_info)
             logger.append(print_info)
+    return logger
+
+def cls_predict(val_data_loader, model, criterion, display):
+    model.eval()
+    batch_time = AverageMeter()
+    data_time = AverageMeter()
+    losses = AverageMeter()
+    end = time.time()
+    logger = []
+    trans = ToPILImage()
+    for num_iter, (images, _, image_paths, _, _) in enumerate(val_data_loader):
+        data_time.update(time.time() - end)
+        final, map = model(Variable(images))
+        # loss = criterion(final, bbox_od)
+        batch_time.update(time.time() - end)
+        end = time.time()
+        # im2show = np.copy(np.array(trans(images[0])))
+        raw = cv2.imread(image_paths[0])
+        im2show = np.copy(raw)
+        bbox = final.data[0].cpu().numpy()
+        bbox = [int(x) for x in bbox]
+        # cv2.rectangle(im2show, (bbox[0], bbox[1]), (bbox[2], bbox[3]), (255, 255, 0), 4)
+        # width = bbox[2] - bbox[0]
+        # height = bbox[3] - bbox[1]
+        #
+        # cv2.rectangle(im2show, (bbox[4]-width//2, bbox[5]-height//2), (bbox[4]+width//2, bbox[5]+height//2), (0, 255, 255), 4)
+        cv2.rectangle(im2show, (bbox[0] - 20, bbox[1] - 20), (bbox[0] + 20, bbox[1] + 20), (255, 255, 0), 4)
+        cv2.imshow('test', im2show)
+        cv2.waitKey(2000)
+    return logger
+
+
+def cls_predict_raw_ann(val_data_loader, model, criterion, display):
+    model.eval()
+    batch_time = AverageMeter()
+    data_time = AverageMeter()
+    losses = AverageMeter()
+    result = np.array([], dtype=int)
+    bias = np.array([], dtype=float)
+    images_list = []
+    end = time.time()
+    logger = []
+    trans = ToPILImage()
+    for num_iter, (images, _, image_paths, bboxs, bboxs_c, params) in enumerate(val_data_loader):
+        for image_file in image_paths:
+            images_list.append(image_file)
+        data_time.update(time.time() - end)
+        final, map = model(Variable(images))
+        # loss = criterion(final, bbox_od)
+        batch_time.update(time.time() - end)
+        end = time.time()
+
+        pred_fovea_center = final.data.cpu().numpy()
+        gt_od_bboxs = bboxs.numpy()
+        gt_fovea_center = bboxs_c.numpy()[:,4:6]
+        tmp, tmp_bias = get_detect_fovea_array(pred_fovea_center, gt_fovea_center, gt_od_bboxs)
+        result = np.append(result, tmp)
+        bias = np.append(bias, tmp_bias)
+
+        # im2show = np.copy(np.array(trans(images[0])))
+        # raw = cv2.imread(image_paths[0])
+        # im2show = np.copy(raw)
+        # bbox = final.data[0].cpu().numpy()
+        # bbox = [int(x) for x in bbox]
+        # # cv2.rectangle(im2show, (bbox[0], bbox[1]), (bbox[2], bbox[3]), (255, 255, 0), 4)
+        # # width = bbox[2] - bbox[0]
+        # # height = bbox[3] - bbox[1]
+        # #
+        # # cv2.rectangle(im2show, (bbox[4]-width//2, bbox[5]-height//2), (bbox[4]+width//2, bbox[5]+height//2), (0, 255, 255), 4)
+        # cv2.rectangle(im2show, (bbox[0] - 20, bbox[1] - 20), (bbox[0] + 20, bbox[1] + 20), (255, 255, 0), 4)
+        # cv2.imshow('test', im2show)
+        # cv2.waitKey(2000)
+    print('threshold:{}\tdetection accuracy:{}'.format(0.5, result.sum() / len(result)))
+    assert len(bias) == len(images_list)
+    error_image_list = []
+    error_thres = 1.0
+    for i in range(len(bias)):
+        if bias[i] > error_thres:
+            error_image_list.append(images_list[i])
+    print(error_image_list)
+
     return logger
 
 
@@ -411,12 +631,12 @@ def main():
     if opt.phase == 'train':
         print('====> Training model:')
         dataloader_train = torch.utils.data.DataLoader(
-            DRDetectionDS_xml('/home/weidong/code/github/mask_rcnn_pytorch/paper_data/data/dr_ann',
-                              '/home/weidong/code/github/mask_rcnn_pytorch/paper_data/data/dr_ann',
-                              512),
+            DRDetectionDS_xml('/home/weidong/code/github/mask_rcnn_pytorch/paper_data/data/incurable',
+                              '/home/weidong/code/github/mask_rcnn_pytorch/paper_data/data/incurable',
+                              448, 512),
             shuffle=True, pin_memory=True, batch_size=10)
         dataloader_val = torch.utils.data.DataLoader(
-            DRDetectionDS_xml('/home/weidong/code/github/mask_rcnn_pytorch/paper_data/data/data',
+            DRDetectionDS_predict_xml('/home/weidong/code/github/mask_rcnn_pytorch/paper_data/data/data',
                               '/home/weidong/code/github/mask_rcnn_pytorch/paper_data/data/data',
                               512),
             shuffle=True, pin_memory=True, batch_size=10)
@@ -456,12 +676,31 @@ def main():
     elif opt.phase == 'test':
         if opt.weight:
             print('====> Evaluating model')
-            dataloader = torch.utils.data.DataLoader(
-                DRDetectionDS_xml('/home/weidong/code/github/mask_rcnn_pytorch/paper_data/data/data',
-                                  '/home/weidong/code/github/mask_rcnn_pytorch/paper_data/data/data',
-                                  512),
-                shuffle=False, pin_memory=False, batch_size=1)
-            logger = cls_eval(dataloader, nn.DataParallel(model).cuda(), criterion, opt.display)
+            # dataloader = torch.utils.data.DataLoader(
+            #     DRDetectionDS_predict_xml('/home/weidong/code/github/mask_rcnn_pytorch/paper_data/data/data',
+            #                       '/home/weidong/code/github/mask_rcnn_pytorch/paper_data/data/data',
+            #                       512),
+            #     shuffle=False, pin_memory=False, batch_size=1)
+            # dataloader = torch.utils.data.DataLoader(
+            #     DRDetectionDS_predict_xml('/home/weidong/code/github/mask_rcnn_pytorch/paper_data/data/incurable',
+            #                               '/home/weidong/code/github/mask_rcnn_pytorch/paper_data/data/incurable',
+            #                               512),
+            #     shuffle=False, pin_memory=False, batch_size=1)
+
+
+
+
+
+            # root = '/home/weidong/code/github/DiabeticRetinopathy_solution/data/zhizhen_new/LabelImages/512'
+            # ds = DRDetectionDS_predict(root, None)
+            # dataloader = DataLoader(ds, batch_size=1, shuffle=False)
+            # # logger = cls_eval(dataloader, nn.DataParallel(model).cuda(), criterion, opt.display)
+            # logger = cls_predict(dataloader, nn.DataParallel(model).cuda(), criterion, opt.display)
+
+            root = '//home/weidong/code/github/ex'
+            ds = DRDetection_predict_raw(root, root, 512)
+            dataloader = DataLoader(ds, batch_size=2, shuffle=False)
+            logger = cls_predict_raw_ann(dataloader, nn.DataParallel(model).cuda(), criterion, opt.display)
 
 if __name__ == '__main__':
     main()

@@ -142,7 +142,7 @@ class DRDetectionDS_xml(Dataset):
                 anns.append(ann)
                 pts = np.append(pts, np.array([int(xmin.text), int(ymin.text), int(xmax.text), int(ymax.text)]))
                 pts_c = np.append(pts_c, np.array([(int(xmin.text)+int(xmax.text))//2, (int(ymin.text)+int(ymax.text))//2]))
-        return anns,pts, pts_c[:6]
+        return anns,pts, pts_c[:4]
 
     def __getitem__(self, item):
         anns = self.ann_info_list[item]
@@ -252,7 +252,7 @@ class cls_model_c(nn.Module):
         if not scratch:
             base_model.load_state_dict(torch.load('../pretrained/'+name+'.pth'))
         self.base = nn.Sequential(*list(base_model.children())[:-2])
-        cls = nn.Sequential(nn.AvgPool2d(featmap), nn.Conv2d(planes, 3*2, kernel_size=1, stride=1, padding=0, bias=True))
+        cls = nn.Sequential(nn.AvgPool2d(featmap), nn.Conv2d(planes, 2*2, kernel_size=1, stride=1, padding=0, bias=True))
         initial_cls_weights(cls)
         self.cls = cls
         if weights:
@@ -351,10 +351,9 @@ def cls_eval(val_data_loader, model, criterion, display):
         bbox = final.data[0].cpu().numpy()
         bbox = [int(x) for x in bbox]
         cv2.rectangle(im2show, (bbox[0], bbox[1]), (bbox[2], bbox[3]), (255, 255, 0), 4)
-        width = bbox[2] - bbox[0]
-        height = bbox[3] - bbox[1]
-
-        cv2.rectangle(im2show, (bbox[4]-width//2, bbox[5]-height//2), (bbox[4]+width//2, bbox[5]+height//2), (255, 255, 0), 4)
+        # width = bbox[2] - bbox[0]
+        # height = bbox[3] - bbox[1]
+        # cv2.rectangle(im2show, (bbox[0]-20, bbox[1]-20), (bbox[0]+20, bbox[1]+20), (255, 255, 0), 4)
         cv2.imshow('test', im2show)
         cv2.waitKey(2000)
         if num_iter % display == 0:
@@ -457,8 +456,8 @@ def main():
         if opt.weight:
             print('====> Evaluating model')
             dataloader = torch.utils.data.DataLoader(
-                DRDetectionDS_xml('/home/weidong/code/github/mask_rcnn_pytorch/paper_data/data/data',
-                                  '/home/weidong/code/github/mask_rcnn_pytorch/paper_data/data/data',
+                DRDetectionDS_xml('/home/weidong/code/github/mask_rcnn_pytorch/paper_data/data/dr_ann',
+                                  '/home/weidong/code/github/mask_rcnn_pytorch/paper_data/data/dr_ann',
                                   512),
                 shuffle=False, pin_memory=False, batch_size=1)
             logger = cls_eval(dataloader, nn.DataParallel(model).cuda(), criterion, opt.display)

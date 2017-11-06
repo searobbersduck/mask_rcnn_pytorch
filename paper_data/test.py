@@ -1,43 +1,91 @@
-import sys
-sys.path.append('../')
+# from PIL import Image
+# import numpy as np
+# import random
+# import os
+# import xml.etree.ElementTree as ET
+#
+# image_file = '/home/weidong/code/github/mask_rcnn_pytorch/paper_data/data/dr_ann/690_dr_2_dme_0_512.png'
+# ann_path = '/home/weidong/code/github/mask_rcnn_pytorch/paper_data/data/dr_ann'
+#
+# mask_file = os.path.join(ann_path, os.path.basename(image_file).split('.')[0]+'.xml')
+#
+# crop = 448
+# size = 512
+# padding = 224
+#
+# def get_bbox(padding, size):
+#     x_center = random.randint(0+padding, size-padding)
+#     y_center = random.randint(0+padding, size-padding)
+#     return x_center-padding, y_center-padding, x_center+padding, y_center+padding
+#
+# image = Image.open(image_file)
+#
+# def read_xml(xml_file):
+#     # xml_file = os.path.join(self.ann_root, xml_file + '.xml')
+#     tree = ET.parse(xml_file)
+#     anns = []
+#     pts = np.array([], dtype=int)
+#     pts_c = np.array([], dtype=int)
+#     for obj in tree.getiterator('object'):
+#         if (obj.find('name').text == 'optic_disk' or obj.find('name').text == 'optic_disc' or obj.find(
+#                 'name').text == 'optic-disc'):
+#             ann = {}
+#             # ann['cls_id'] = obj.find('name').text
+#             ann['ordered_id'] = 1 if (
+#             obj.find('name').text == 'optic_disk' or obj.find('name').text == 'optic_disc') else 2
+#             # ann['bbox'] = [0] * 4
+#             xmin = obj.find('bndbox').find('xmin')
+#             ymin = obj.find('bndbox').find('ymin')
+#             xmax = obj.find('bndbox').find('xmax')
+#             ymax = obj.find('bndbox').find('ymax')
+#             ann['bbox'] = np.array([int(xmin.text), int(ymin.text), int(xmax.text), int(ymax.text)])
+#             ann['scale_ratio'] = 1
+#             ann['area'] = (int(ymax.text) - int(ymin.text)) * (int(xmax.text) - int(xmin.text))
+#             anns.append(ann)
+#             pts = np.append(pts, np.array([int(xmin.text), int(ymin.text), int(xmax.text), int(ymax.text)]))
+#             pts_c = np.append(pts_c, np.array([int(xmin.text), int(ymin.text), int(xmax.text), int(ymax.text)]))
+#     for obj in tree.getiterator('object'):
+#         if obj.find('name').text == 'macular':
+#             ann = {}
+#             # ann['cls_id'] = obj.find('name').text
+#             ann['ordered_id'] = 1 if (
+#             obj.find('name').text == 'optic_disk' or obj.find('name').text == 'optic_disc' or obj.find(
+#                 'name').text == 'optic-disc') else 2
+#             # ann['bbox'] = [0] * 4
+#             xmin = obj.find('bndbox').find('xmin')
+#             ymin = obj.find('bndbox').find('ymin')
+#             xmax = obj.find('bndbox').find('xmax')
+#             ymax = obj.find('bndbox').find('ymax')
+#             ann['bbox'] = np.array([int(xmin.text), int(ymin.text), int(xmax.text), int(ymax.text)])
+#             ann['scale_ratio'] = 1
+#             ann['area'] = (int(ymax.text) - int(ymin.text)) * (int(xmax.text) - int(xmin.text))
+#             anns.append(ann)
+#             pts = np.append(pts, np.array([int(xmin.text), int(ymin.text), int(xmax.text), int(ymax.text)]))
+#             pts_c = np.append(pts_c, np.array(
+#                 [(int(xmin.text) + int(xmax.text)) // 2, (int(ymin.text) + int(ymax.text)) // 2]))
+#     return anns, pts, pts_c[:6]
+#
+# _,bboxs,_ = read_xml(mask_file)
+#
+# def bbox_trans(bboxs, l, u, ratio):
+#     assert len(bboxs) == 8
+#     pts = np.array([], dtype=int)
+#     for i in range(len(bboxs)):
+#         if i%2 == 0:
+#             pts = np.append(pts, int((bboxs[i]-l)*ratio))
+#         else:
+#             pts = np.append(pts, int((bboxs[i]-u)*ratio))
+#     return pts
+#
+# for i in range(2):
+#     l,u,r,b = get_bbox(padding, size)
+#     cropped_image = image.crop((l,u,r,b))
+#     cropped_bboxs = bbox_trans(bboxs, l, u, size/crop)
+#     print('crop and resized image bounding box: {}'.format(cropped_bboxs))
+#     cropped_image.show()
+#
+#
+#
+#
 
-import torch
-import cv2
-import numpy as np
-from PIL import Image
-from torchvision.transforms import ToPILImage
-
-from data_xml import DRDetectionDS_xml, coco_collate
-
-dataloader = torch.utils.data.DataLoader(DRDetectionDS_xml('/home/weidong/code/github/mask_rcnn_pytorch/paper_data/data/data',
-                                                           '/home/weidong/code/github/mask_rcnn_pytorch/paper_data/data/data',
-                                                           512), collate_fn=coco_collate,
-                                             shuffle=True, pin_memory=True)
-
-trans = ToPILImage()
-
-# for i, (img, anns, image_path) in enumerate(dataloader):
-#     # pil_img = transforms.ToPILImage()(img[0])
-#     # pil_img.show()
-#     bb1 = anns[0][0]['bbox']
-#     bb2 = anns[0][1]['bbox']
-#     im2show = np.copy(np.array(trans(img[0])))
-#     cv2.rectangle(im2show, (int(bb1[0]), int(bb1[1])), (int(bb1[2]), int(bb1[3])), (200, 200, 0), 4)
-#     cv2.rectangle(im2show, (int(bb2[0]), int(bb2[1])), (int(bb2[2]), int(bb2[3])), (200, 200, 0), 4)
-#     cv2.imshow('test', im2show)
-#     cv2.waitKey(2000)
-#     print(anns)
-
-
-for i, (img, anns, image_path) in enumerate(dataloader):
-    # pil_img = transforms.ToPILImage()(img[0])
-    # pil_img.show()
-    raw = cv2.imread(image_path[0])
-    bb1 = anns[0][0]['bbox']
-    bb2 = anns[0][1]['bbox']
-    im2show = np.copy(raw)
-    cv2.rectangle(im2show, (int(bb1[0]), int(bb1[1])), (int(bb1[2]), int(bb1[3])), (200, 200, 0), 4)
-    cv2.rectangle(im2show, (int(bb2[0]), int(bb2[1])), (int(bb2[2]), int(bb2[3])), (200, 200, 0), 4)
-    cv2.imshow('test', im2show)
-    cv2.waitKey(2000)
-    print(anns)
+from predict_common import DRDetectionDS_predict

@@ -1,0 +1,4 @@
+#CUDA_VISIBLE_DEVICES=0,1,2,3 python od_detector.py --phase train
+CUDA_VISIBLE_DEVICES=0,1,2,3 python fovea_detector_random_sample.py --phase test --weight /home/weidong/code/github/mask_rcnn_pytorch/paper_data/output/emei_od_and_fovea_detection_train_20171102132544_rsn34_od_and_fovea_detection/emei_od_and_fovea_detection_rsn34_03104_best.pth
+
+# CUDA_VISIBLE_DEVICES=0,1,2,3 python fovea_detector_random_sample.py --phase test --weight /home/weidong/code/github/mask_rcnn_pytorch/paper_data/output/emei_od_and_fovea_detection_train_20171106095830_rsn34_od_and_fovea_detection/emei_od_and_fovea_detection_rsn34_00533_best.pth
