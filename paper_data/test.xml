@@ -1,0 +1,38 @@
+<annotation>
+	<folder>&#26377;&#28183;&#20986;</folder>
+	<filename>47.jpg</filename>
+	<path>C:/Users/v_zhoushiqi/Desktop/&#26377;&#28183;&#20986;/47.jpg</path>
+	<source>
+		<database>Unknown</database>
+	</source>
+	<size>
+		<width>2544</width>
+		<height>1696</height>
+		<depth>3</depth>
+	</size>
+	<segmented>0</segmented>
+	<object>
+		<name>optic_disc</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<bndbox xmin="">
+			<xmin>425</xmin>
+			<ymin>252</ymin>
+			<xmax>531</xmax>
+			<ymax>369</ymax>
+		</bndbox>
+	</object>
+	<object>
+		<name>macular</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<bndbox xmin="">
+			<xmin>232</xmin>
+			<ymin>319</ymin>
+			<xmax>277</xmax>
+			<ymax>363</ymax>
+		</bndbox>
+	</object>
+</annotation>

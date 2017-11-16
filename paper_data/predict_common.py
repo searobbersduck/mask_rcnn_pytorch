@@ -11,6 +11,7 @@ import sys
 sys.path.append('../')
 from utils import PILColorJitter, AverageMeter
 import torchvision.transforms as transforms
+from torchvision.transforms import Scale
 from torch.utils.data import Dataset, DataLoader
 from glob import glob
 import os
@@ -19,6 +20,7 @@ import numpy as np
 import xml.etree.ElementTree as ET
 import cv2
 import math
+import random
 
 class DRDetectionDS_predict(Dataset):
     def __init__(self, root, scale_size=None):
@@ -238,17 +240,319 @@ def get_detect_fovea_array(predict_pts, gt_pts, gt_od_bboxs, thres=0.5):
     return result, bias
 
 # check predict od validation
-def get_detect_od_array(predict_od_bboxs, gt_od_bboxs, thres=0.5):
+def get_detect_od_array(predict_od_bboxs, gt_od_bboxs, thres=0.7):
     assert predict_od_bboxs.shape[0] == gt_od_bboxs.shape[0]
     length = predict_od_bboxs.shape[0]
     result = np.array([], dtype=int)
+    ious = np.array([], dtype=float)
     for i in range(length):
         iou = cal_iou(predict_od_bboxs[i], gt_od_bboxs[i])
         checked = 1 if (iou > thres) else 0
         result = np.append(result, checked)
-    return result, result.sum() / len(result)
+        ious = np.append(ious, iou)
+    return result, ious
+
+def clamp(self, min_val, max_val, val):
+    return max(min_val, min(max_val, val))
+
+def get_random_bbox(bboxs, padding, size, type=1):
+    if type == 1:
+        min_x_b = bboxs[2]
+        min_y_b = bboxs[3]
+        max_x_b = bboxs[0]
+        max_y_b = bboxs[1]
+    elif type == 2:
+        min_x_b = max(bboxs[2], bboxs[6])
+        min_y_b = max(bboxs[3], bboxs[7])
+        max_x_b = min(bboxs[0], bboxs[4])
+        max_y_b = min(bboxs[1], bboxs[5])
+
+    min_x_b =  max(0+padding, min_x_b-padding)
+    min_y_b =  max(0+padding, min_y_b-padding)
+    max_x_b =  min(size - padding, max_x_b+padding)
+    max_y_b =  min(size - padding, max_y_b+padding)
+    x_center = random.randint(min_x_b, max_x_b)
+    y_center = random.randint(min_y_b, max_y_b)
+    return x_center - padding, y_center - padding, x_center + padding, y_center + padding
+
+
+'''
+dataset related
+'''
+
+ds_type = ['od', 'fovea', 'od_fovea']
+
+class DRDetectionDS_xml(Dataset):
+    def __init__(self, root, ann_root, crop, size, type, scale_size=None):
+        super(DRDetectionDS_xml, self).__init__()
+        self.root = root
+        self.ann_root = ann_root
+        self.scale_size = scale_size
+        self.crop = crop
+        self.size = size
+        self.ratio = size/crop
+        self.padding = crop//2
+        self.type = type
+        self.transform = transforms.Compose([
+            Scale(self.size),
+            PILColorJitter(),
+            transforms.ToTensor(),
+            # Lighting(alphastd=0.01, eigval=eigen_values, eigvec=eigen_values),
+            transforms.Normalize(mean=[0.485, 0.456, 0.406],
+                                 std=[0.229, 0.224, 0.225])
+        ])
+        self.classid = ['optic_dis', 'macular']
+        ann_list = glob(os.path.join(ann_root, '*.xml'))
+        img_list = glob(os.path.join(root, '*.png'))
+        img_list = [i.split('.')[0] for i in img_list]
+        ann_list = [i.split('.')[0] for i in ann_list]
+        self.data_list = []
+        self.ann_info_list = []
+        self.bboxs_list = []
+        self.bboxs_c_list = []
+        for ann in ann_list:
+            if ann in img_list:
+                self.data_list.append(ann)
+        for index in self.data_list:
+            anns, bbox, bbox_c = self.__read_xml(index)
+            self.ann_info_list.append(anns)
+            self.bboxs_list.append(bbox)
+            self.bboxs_c_list.append(bbox_c)
+
+
+    def __read_xml(self, xml_file):
+        xml_file = os.path.join(self.ann_root, xml_file+'.xml')
+        tree = ET.parse(xml_file)
+        anns = []
+        pts = np.array([], dtype=int)
+        pts_c = np.array([], dtype=int)
+        for obj in tree.getiterator('object'):
+            if (obj.find('name').text == 'optic_disk' or obj.find('name').text == 'optic_disc' or obj.find('name').text == 'optic-disc'):
+                ann = {}
+                # ann['cls_id'] = obj.find('name').text
+                ann['ordered_id'] = 1 if (obj.find('name').text == 'optic_disk' or obj.find('name').text == 'optic_disc') else 2
+                # ann['bbox'] = [0] * 4
+                xmin = obj.find('bndbox').find('xmin')
+                ymin = obj.find('bndbox').find('ymin')
+                xmax = obj.find('bndbox').find('xmax')
+                ymax = obj.find('bndbox').find('ymax')
+                ann['bbox'] = np.array([int(xmin.text), int(ymin.text), int(xmax.text), int(ymax.text)])
+                ann['scale_ratio'] = 1
+                ann['area'] = (int(ymax.text)-int(ymin.text)) * (int(xmax.text)-int(xmin.text))
+                anns.append(ann)
+                pts = np.append(pts, np.array([int(xmin.text), int(ymin.text), int(xmax.text), int(ymax.text)]))
+                pts_c = np.append(pts_c, np.array([int(xmin.text), int(ymin.text), int(xmax.text), int(ymax.text)]))
+        for obj in tree.getiterator('object'):
+            if obj.find('name').text == 'macular':
+                ann = {}
+                # ann['cls_id'] = obj.find('name').text
+                ann['ordered_id'] = 1 if (obj.find('name').text == 'optic_disk' or obj.find('name').text == 'optic_disc' or obj.find('name').text == 'optic-disc') else 2
+                # ann['bbox'] = [0] * 4
+                xmin = obj.find('bndbox').find('xmin')
+                ymin = obj.find('bndbox').find('ymin')
+                xmax = obj.find('bndbox').find('xmax')
+                ymax = obj.find('bndbox').find('ymax')
+                ann['bbox'] = np.array([int(xmin.text), int(ymin.text), int(xmax.text), int(ymax.text)])
+                ann['scale_ratio'] = 1
+                ann['area'] = (int(ymax.text)-int(ymin.text)) * (int(xmax.text)-int(xmin.text))
+                anns.append(ann)
+                pts = np.append(pts, np.array([int(xmin.text), int(ymin.text), int(xmax.text), int(ymax.text)]))
+                pts_c = np.append(pts_c, np.array([(int(xmin.text)+int(xmax.text))//2, (int(ymin.text)+int(ymax.text))//2]))
+        if self.type == ds_type[0]:
+            return anns, pts, pts_c[:4]
+        elif self.type == ds_type[1]:
+            return anns, pts, pts_c[4:6]
+        else:
+            return anns, pts, pts_c[:6]
+
+
+
+    def __clamp(self, min_val, max_val, val):
+        return max(min_val, min(max_val, val))
+
+    def __bbox_trans(self, bboxs, l, u, ratio):
+        assert len(bboxs) == 8
+        pts = np.array([], dtype=int)
+        for i in range(len(bboxs)):
+            if i % 2 == 0:
+                pts = np.append(pts, self.__clamp(0, self.size-1, int((bboxs[i] - l) * ratio)))
+            else:
+                pts = np.append(pts, self.__clamp(0, self.size-1, int((bboxs[i] - u) * ratio)))
+        return pts
+
+    def __bbox_trans_center(self, bboxs, l, u, ratio):
+        # assert len(bboxs) == 4
+        pts = np.array([], dtype=int)
+        for i in range(len(bboxs)):
+            if i % 2 == 0:
+                pts = np.append(pts, self.__clamp(0, self.size-1, int((bboxs[i] - l) * ratio)))
+            else:
+                pts = np.append(pts, self.__clamp(0, self.size-1, int((bboxs[i] - u) * ratio)))
+        return pts
+
+    def __get_random_bbox(self, padding, size):
+        x_center = random.randint(0 + padding, size - padding)
+        y_center = random.randint(0 + padding, size - padding)
+        return x_center - padding, y_center - padding, x_center + padding, y_center + padding
+
+    def __get_random_bbox_constrained(self, bboxs, padding, size):
+        return get_random_bbox(bboxs, padding, size, 1)
+
+
+    def __getitem__(self, item):
+        anns = self.ann_info_list[item]
+        image_path = os.path.join(self.root, self.data_list[item]+'.png')
+        img = Image.open(image_path)
+        # l,u,r,b = self.__get_random_bbox(self.padding, self.size)
+        l, u, r, b = self.__get_random_bbox_constrained(self.bboxs_list[item], self.padding, self.size)
+        img = img.crop((l,u,r,b))
+
+        if self.scale_size is not None:
+            w,h = img.size
+            scale_ratio = self.scale_size/w if w<h else self.scale_size/h
+            if scale_ratio != 1:
+                img = img.resize((int(w*scale_ratio), int(h*scale_ratio)), Image.BILINEAR)
+                for ann in anns:
+                    ann['area'] *= scale_ratio**2
+                    ann['bbox'] = [x*scale_ratio for x in ann['bbox']]
+                    ann['scale_ratio'] = scale_ratio
+
+        img = self.transform(img)
+
+        return img, anns, image_path, self.__bbox_trans(self.bboxs_list[item], l, u, self.ratio), \
+               self.__bbox_trans_center(self.bboxs_c_list[item], l, u, self.ratio)
+
+    def __len__(self):
+        return len(self.data_list)
+
+class DRDetectionDS_od_xml(DRDetectionDS_xml):
+    def __init__(self, root, ann_root, crop, size, scale_size=None):
+        super(DRDetectionDS_od_xml, self).__init__(root, ann_root, crop, size, ds_type[0],scale_size)
+
+class DRDetectionDS_fovea_xml(DRDetectionDS_xml):
+    def __init__(self, root, ann_root, crop, size, scale_size=None):
+        super(DRDetectionDS_fovea_xml, self).__init__(root, ann_root, crop, size, ds_type[1],scale_size)
+
+class DRDetectionDS_od_and_fovea_xml(DRDetectionDS_xml):
+    def __init__(self, root, ann_root, crop, size, scale_size=None):
+        super(DRDetectionDS_od_and_fovea_xml, self).__init__(root, ann_root, crop, size, ds_type[2],scale_size)
+
+
+class DRDetectionDS_predict_xml(Dataset):
+    def __init__(self, root, ann_root, type, scale_size=None):
+        super(DRDetectionDS_predict_xml, self).__init__()
+        self.root = root
+        self.ann_root = ann_root
+        self.scale_size = scale_size
+        self.type = type
+        self.transform = transforms.Compose([
+            PILColorJitter(),
+            transforms.ToTensor(),
+            # Lighting(alphastd=0.01, eigval=eigen_values, eigvec=eigen_values),
+            transforms.Normalize(mean=[0.485, 0.456, 0.406],
+                                 std=[0.229, 0.224, 0.225])
+        ])
+        self.classid = ['optic_dis', 'macular']
+        ann_list = glob(os.path.join(ann_root, '*.xml'))
+        img_list = glob(os.path.join(root, '*.png'))
+        img_list = [i.split('.')[0] for i in img_list]
+        ann_list = [i.split('.')[0] for i in ann_list]
+        self.data_list = []
+        self.ann_info_list = []
+        self.bboxs_list = []
+        self.bboxs_c_list = []
+        for ann in ann_list:
+            if ann in img_list:
+                self.data_list.append(ann)
+        for index in self.data_list:
+            anns, bbox, bbox_c = self.__read_xml(index)
+            self.ann_info_list.append(anns)
+            self.bboxs_list.append(bbox)
+            self.bboxs_c_list.append(bbox_c)
+
+
+    def __read_xml(self, xml_file):
+        xml_file = os.path.join(self.ann_root, xml_file+'.xml')
+        tree = ET.parse(xml_file)
+        anns = []
+        pts = np.array([], dtype=int)
+        pts_c = np.array([], dtype=int)
+        for obj in tree.getiterator('object'):
+            if (obj.find('name').text == 'optic_disk' or obj.find('name').text == 'optic_disc' or obj.find('name').text == 'optic-disc'):
+                ann = {}
+                # ann['cls_id'] = obj.find('name').text
+                ann['ordered_id'] = 1 if (obj.find('name').text == 'optic_disk' or obj.find('name').text == 'optic_disc') else 2
+                # ann['bbox'] = [0] * 4
+                xmin = obj.find('bndbox').find('xmin')
+                ymin = obj.find('bndbox').find('ymin')
+                xmax = obj.find('bndbox').find('xmax')
+                ymax = obj.find('bndbox').find('ymax')
+                ann['bbox'] = np.array([int(xmin.text), int(ymin.text), int(xmax.text), int(ymax.text)])
+                ann['scale_ratio'] = 1
+                ann['area'] = (int(ymax.text)-int(ymin.text)) * (int(xmax.text)-int(xmin.text))
+                anns.append(ann)
+                pts = np.append(pts, np.array([int(xmin.text), int(ymin.text), int(xmax.text), int(ymax.text)]))
+                pts_c = np.append(pts_c, np.array([int(xmin.text), int(ymin.text), int(xmax.text), int(ymax.text)]))
+        for obj in tree.getiterator('object'):
+            if obj.find('name').text == 'macular':
+                ann = {}
+                # ann['cls_id'] = obj.find('name').text
+                ann['ordered_id'] = 1 if (obj.find('name').text == 'optic_disk' or obj.find('name').text == 'optic_disc' or obj.find('name').text == 'optic-disc') else 2
+                # ann['bbox'] = [0] * 4
+                xmin = obj.find('bndbox').find('xmin')
+                ymin = obj.find('bndbox').find('ymin')
+                xmax = obj.find('bndbox').find('xmax')
+                ymax = obj.find('bndbox').find('ymax')
+                ann['bbox'] = np.array([int(xmin.text), int(ymin.text), int(xmax.text), int(ymax.text)])
+                ann['scale_ratio'] = 1
+                ann['area'] = (int(ymax.text)-int(ymin.text)) * (int(xmax.text)-int(xmin.text))
+                anns.append(ann)
+                pts = np.append(pts, np.array([int(xmin.text), int(ymin.text), int(xmax.text), int(ymax.text)]))
+                pts_c = np.append(pts_c, np.array([(int(xmin.text)+int(xmax.text))//2, (int(ymin.text)+int(ymax.text))//2]))
+        if self.type == ds_type[0]:
+            return anns, pts, pts_c[:4]
+        elif self.type == ds_type[1]:
+            return anns, pts, pts_c[4:6]
+        else:
+            return anns, pts, pts_c[:6]
+
+    def __getitem__(self, item):
+        anns = self.ann_info_list[item]
+        image_path = os.path.join(self.root, self.data_list[item]+'.png')
+        img = Image.open(image_path)
+
+        if self.scale_size is not None:
+            w,h = img.size
+            scale_ratio = self.scale_size/w if w<h else self.scale_size/h
+            if scale_ratio != 1:
+                img = img.resize((int(w*scale_ratio), int(h*scale_ratio)), Image.BILINEAR)
+                for ann in anns:
+                    ann['area'] *= scale_ratio**2
+                    ann['bbox'] = [x*scale_ratio for x in ann['bbox']]
+                    ann['scale_ratio'] = scale_ratio
+
+        img = self.transform(img)
+
+        return img, anns, image_path, self.bboxs_list[item], self.bboxs_c_list[item]
+
+    def __len__(self):
+        return len(self.data_list)
+
+class DRDetectionDS_od_predict_xml(DRDetectionDS_predict_xml):
+    def __init__(self, root, ann_root, scale_size=None):
+        super(DRDetectionDS_od_predict_xml, self).__init__(root, ann_root, ds_type[0], scale_size)
+
+class DRDetectionDS_fovea_predict_xml(DRDetectionDS_predict_xml):
+    def __init__(self, root, ann_root, scale_size=None):
+        super(DRDetectionDS_fovea_predict_xml, self).__init__(root, ann_root, ds_type[1], scale_size)
+
+class DRDetectionDS_od_and_fovea_predict_xml(DRDetectionDS_predict_xml):
+    def __init__(self, root, ann_root, scale_size=None):
+        super(DRDetectionDS_od_and_fovea_predict_xml, self).__init__(root, ann_root, ds_type[2], scale_size)
+
 
 
 if __name__ == '__main__':
     # test_DRDetectionDS_predict()
     test_DRDetection_predict_raw()
+    # test_DRDetectionDS_od_xml()

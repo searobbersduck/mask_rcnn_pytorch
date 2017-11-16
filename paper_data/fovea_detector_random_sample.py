@@ -563,20 +563,22 @@ def cls_predict_raw_ann(val_data_loader, model, criterion, display):
         result = np.append(result, tmp)
         bias = np.append(bias, tmp_bias)
 
-        # im2show = np.copy(np.array(trans(images[0])))
-        # raw = cv2.imread(image_paths[0])
-        # im2show = np.copy(raw)
-        # bbox = final.data[0].cpu().numpy()
-        # bbox = [int(x) for x in bbox]
-        # # cv2.rectangle(im2show, (bbox[0], bbox[1]), (bbox[2], bbox[3]), (255, 255, 0), 4)
-        # # width = bbox[2] - bbox[0]
-        # # height = bbox[3] - bbox[1]
-        # #
-        # # cv2.rectangle(im2show, (bbox[4]-width//2, bbox[5]-height//2), (bbox[4]+width//2, bbox[5]+height//2), (0, 255, 255), 4)
-        # cv2.rectangle(im2show, (bbox[0] - 20, bbox[1] - 20), (bbox[0] + 20, bbox[1] + 20), (255, 255, 0), 4)
-        # cv2.imshow('test', im2show)
-        # cv2.waitKey(2000)
-    print('threshold:{}\tdetection accuracy:{}'.format(0.5, result.sum() / len(result)))
+        im2show = np.copy(np.array(trans(images[0])))
+        raw = cv2.imread(image_paths[0])
+        im2show = np.copy(raw)
+        bbox = final.data[0].cpu().numpy()
+        bbox = [int(x) for x in bbox]
+        # cv2.rectangle(im2show, (bbox[0], bbox[1]), (bbox[2], bbox[3]), (255, 255, 0), 4)
+        # width = bbox[2] - bbox[0]
+        # height = bbox[3] - bbox[1]
+        #
+        # cv2.rectangle(im2show, (bbox[4]-width//2, bbox[5]-height//2), (bbox[4]+width//2, bbox[5]+height//2), (0, 255, 255), 4)
+        cv2.rectangle(im2show, (bbox[0] - 20, bbox[1] - 20), (bbox[0] + 20, bbox[1] + 20), (255, 255, 0), 4)
+        cv2.imshow('test', im2show)
+        cv2.waitKey(2000)
+    print_info = '[fovea detection]:\tthreshold:{}\tdetection accuracy:{}'.format(0.5, result.sum() / len(result))
+    print(print_info)
+    logger.append(print_info)
     assert len(bias) == len(images_list)
     error_image_list = []
     error_thres = 1.0
@@ -691,16 +693,16 @@ def main():
 
 
 
-            # root = '/home/weidong/code/github/DiabeticRetinopathy_solution/data/zhizhen_new/LabelImages/512'
-            # ds = DRDetectionDS_predict(root, None)
-            # dataloader = DataLoader(ds, batch_size=1, shuffle=False)
-            # # logger = cls_eval(dataloader, nn.DataParallel(model).cuda(), criterion, opt.display)
-            # logger = cls_predict(dataloader, nn.DataParallel(model).cuda(), criterion, opt.display)
+            root = '/home/weidong/code/github/DiabeticRetinopathy_solution/data/zhizhen_new/LabelImages/512'
+            ds = DRDetectionDS_predict(root, None)
+            dataloader = DataLoader(ds, batch_size=1, shuffle=False)
+            # logger = cls_eval(dataloader, nn.DataParallel(model).cuda(), criterion, opt.display)
+            logger = cls_predict(dataloader, nn.DataParallel(model).cuda(), criterion, opt.display)
 
-            root = '//home/weidong/code/github/ex'
-            ds = DRDetection_predict_raw(root, root, 512)
-            dataloader = DataLoader(ds, batch_size=2, shuffle=False)
-            logger = cls_predict_raw_ann(dataloader, nn.DataParallel(model).cuda(), criterion, opt.display)
+            # root = '//home/weidong/code/github/ex'
+            # ds = DRDetection_predict_raw(root, root, 512)
+            # dataloader = DataLoader(ds, batch_size=2, shuffle=False)
+            # logger = cls_predict_raw_ann(dataloader, nn.DataParallel(model).cuda(), criterion, opt.display)
 
 if __name__ == '__main__':
     main()

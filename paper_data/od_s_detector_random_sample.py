@@ -39,7 +39,8 @@ import torch.backends.cudnn as cudnn
 
 from utils import PILColorJitter, Lighting
 
-from predict_common import DRDetection_predict_raw, pts_trans_inv, scale_image, get_detect_od_array
+from predict_common import DRDetection_predict_raw, pts_trans_inv, scale_image, \
+    get_detect_od_array, get_random_bbox
 
 import random
 
@@ -181,12 +182,16 @@ class DRDetectionDS_xml(Dataset):
         y_center = random.randint(0 + padding, size - padding)
         return x_center - padding, y_center - padding, x_center + padding, y_center + padding
 
+    def __get_random_bbox_constrained(self, bboxs, padding, size):
+        return get_random_bbox(bboxs, padding, size, 1)
+
 
     def __getitem__(self, item):
         anns = self.ann_info_list[item]
         image_path = os.path.join(self.root, self.data_list[item]+'.png')
         img = Image.open(image_path)
-        l,u,r,b = self.__get_random_bbox(self.padding, self.size)
+        # l,u,r,b = self.__get_random_bbox(self.padding, self.size)
+        l, u, r, b = self.__get_random_bbox_constrained(self.bboxs_list[item], self.padding, self.size)
         img = img.crop((l,u,r,b))
 
         if self.scale_size is not None:
@@ -511,10 +516,14 @@ def cls_predict(val_data_loader, model, criterion, display):
     data_time = AverageMeter()
     losses = AverageMeter()
     result = np.array([], dtype=int)
+    ious = np.array([], dtype=float)
+    images_list = []
     end = time.time()
     logger = []
     trans = ToPILImage()
     for num_iter, (images, _, image_paths, bboxs, bboxs_c, params) in enumerate(val_data_loader):
+        for image_file in image_paths:
+            images_list.append(image_file)
         data_time.update(time.time() - end)
         final, map = model(Variable(images))
         # loss = criterion(final, bbox_od)
@@ -524,28 +533,41 @@ def cls_predict(val_data_loader, model, criterion, display):
         # raw = cv2.imread(image_paths[0])
         pred_od_bboxs = final.data.cpu().numpy()
         gt_od_bboxs = bboxs.numpy()
-        tmp, _ = get_detect_od_array(pred_od_bboxs, gt_od_bboxs)
+        tmp, tmp_ious = get_detect_od_array(pred_od_bboxs, gt_od_bboxs)
         result = np.append(result, tmp)
+        ious = np.append(ious, tmp_ious)
 
-        # raw = Image.open(image_paths[0])
-        # raw,_,_,_ = scale_image(raw, 512)
-        # raw = np.array(raw)
-        # im2show = np.copy(raw)
-        # im2show = cv2.cvtColor(im2show, cv2.COLOR_RGB2BGR)
-        # bbox = final.data[0].cpu().numpy()
-        # bbox = [int(x) for x in bbox]
-        # param = [params[0][0], params[1][0], params[2][0]]
-        # # bbox = pts_trans_inv(bbox, param[0], param[1], param[2])
-        # cv2.rectangle(im2show, (bbox[0], bbox[1]), (bbox[2], bbox[3]), (255, 255, 0), 4)
-        # # width = bbox[2] - bbox[0]
-        # # height = bbox[3] - bbox[1]
-        # #
-        # # cv2.rectangle(im2show, (bbox[4]-width//2, bbox[5]-height//2), (bbox[4]+width//2, bbox[5]+height//2), (0, 255, 255), 4)
-        # # cv2.rectangle(im2show, (bbox[0] - 20, bbox[1] - 20), (bbox[0] + 20, bbox[1] + 20), (255, 255, 0), 4)
-        # cv2.imshow('test', im2show)
-        # cv2.waitKey(2000)
+        raw = Image.open(image_paths[0])
+        raw,_,_,_ = scale_image(raw, 512)
+        raw = np.array(raw)
+        im2show = np.copy(raw)
+        im2show = cv2.cvtColor(im2show, cv2.COLOR_RGB2BGR)
+        bbox = final.data[0].cpu().numpy()
+        bbox = [int(x) for x in bbox]
+        param = [params[0][0], params[1][0], params[2][0]]
+        # bbox = pts_trans_inv(bbox, param[0], param[1], param[2])
+        cv2.rectangle(im2show, (bbox[0], bbox[1]), (bbox[2], bbox[3]), (255, 255, 0), 4)
+        # width = bbox[2] - bbox[0]
+        # height = bbox[3] - bbox[1]
+        #
+        # cv2.rectangle(im2show, (bbox[4]-width//2, bbox[5]-height//2), (bbox[4]+width//2, bbox[5]+height//2), (0, 255, 255), 4)
+        # cv2.rectangle(im2show, (bbox[0] - 20, bbox[1] - 20), (bbox[0] + 20, bbox[1] + 20), (255, 255, 0), 4)
+        cv2.imshow('test', im2show)
+        cv2.waitKey(2000)
 
-    print('threshold:{}\tdetection accuracy:{}'.format(0.5, result.sum()/len(result)))
+    print_info = '[optic_disc detection]:\tthreshold:{}\tdetection accuracy:{}'.format(0.5, result.sum() / len(result))
+    print(print_info)
+    logger.append(print_info)
+
+    assert len(ious) == len(images_list)
+    error_image_list = []
+    error_thres = 0.5
+    for i in range(len(ious)):
+        if ious[i] < error_thres:
+            error_image_list.append(images_list[i])
+    print(error_image_list)
+    logger.append(''.format(error_image_list))
+
     return logger
 
 # dataloader = torch.utils.data.DataLoader(DRDetectionDS_xml('/home/weidong/code/github/mask_rcnn_pytorch/paper_data/data/data',
@@ -646,6 +668,11 @@ def main():
             ds = DRDetection_predict_raw(root, root, 512)
             dataloader = DataLoader(ds, batch_size=2, shuffle=False)
             logger = cls_predict(dataloader, nn.DataParallel(model).cuda(), criterion, opt.display)
+            if not os.path.isfile(os.path.join(output_dir, 'predict.log')):
+                with open(os.path.join(output_dir, 'predict.log'), 'w') as fp:
+                    fp.write(str(opt)+'\n\n')
+            with open(os.path.join(output_dir, 'predict.log'), 'a') as fp:
+                fp.write('\n' + '\n'.join(logger))
 
 if __name__ == '__main__':
     main()
