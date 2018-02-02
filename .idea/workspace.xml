@@ -2,15 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b7e0ba31-0c52-4160-883c-ee3b2d845e97" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/paper_data/dataset_utils.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/paper_data/raw_data_scale.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/paper_data/fovea_detector_random_sample.py" afterPath="$PROJECT_DIR$/paper_data/fovea_detector_random_sample.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/paper_data/fovea_detector_random_sample_task.sh" afterPath="$PROJECT_DIR$/paper_data/fovea_detector_random_sample_task.sh" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/paper_data/od_s_detector_random_sample.py" afterPath="$PROJECT_DIR$/paper_data/od_s_detector_random_sample.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/paper_data/od_s_detector_random_sample.sh" afterPath="$PROJECT_DIR$/paper_data/od_s_detector_random_sample.sh" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/paper_data/predict_common.py" afterPath="$PROJECT_DIR$/paper_data/predict_common.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/paper_data/test.py" afterPath="$PROJECT_DIR$/paper_data/test.py" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" afterPath="$PROJECT_DIR$/.gitignore" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change beforePath="$PROJECT_DIR$/paper_data/dme_explainable.py" afterPath="$PROJECT_DIR$/paper_data/dme_explainable.py" />
+      <change beforePath="$PROJECT_DIR$/paper_data/od_and_fovea_detector_random_sample.sh" afterPath="$PROJECT_DIR$/paper_data/od_and_fovea_detector_random_sample.sh" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -22,22 +17,20 @@
   <component name="CreatePatchCommitExecutor">
     <option name="PATCH_PATH" value="" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FileEditorManager">
-    <splitter split-orientation="horizontal" split-proportion="0.64065576">
+    <splitter split-orientation="horizontal" split-proportion="0.60795456">
       <split-first>
         <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
           <file leaf-file-name="predict_common.py" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/paper_data/predict_common.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="329">
-                  <caret line="87" column="17" lean-forward="false" selection-start-line="87" selection-start-column="4" selection-end-line="87" selection-end-column="17" />
+                <state relative-caret-position="1224">
+                  <caret line="152" column="27" lean-forward="false" selection-start-line="152" selection-start-column="23" selection-end-line="152" selection-end-column="27" />
                   <folding>
                     <element signature="e#564#1497#0" expanded="false" />
                     <element signature="e#2485#2744#0" expanded="false" />
                     <element signature="e#3079#3445#0" expanded="false" />
                     <element signature="e#3489#5982#0" expanded="false" />
-                    <element signature="e#6029#7723#0" expanded="false" />
                     <element signature="e#9328#9972#0" expanded="false" />
                   </folding>
                 </state>
@@ -47,64 +40,88 @@
           <file leaf-file-name="od_and_fovea_detector_random_sample.sh" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/paper_data/od_and_fovea_detector_random_sample.sh">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="135">
-                  <caret line="9" column="0" lean-forward="false" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="453" />
+                <state relative-caret-position="18">
+                  <caret line="1" column="0" lean-forward="false" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
                   <folding />
                 </state>
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="dme_explainable.py" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/paper_data/dme_explainable.py">
+          <file leaf-file-name="od_s_detector_random_sample.sh" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/paper_data/od_s_detector_random_sample.sh">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="153">
-                  <caret line="247" column="32" lean-forward="false" selection-start-line="247" selection-start-column="32" selection-end-line="247" selection-end-column="32" />
-                  <folding>
-                    <element signature="e#44#53#0" expanded="true" />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="dme_explainable.sh" pinned="false" current-in-tab="true">
-            <entry file="file://$PROJECT_DIR$/paper_data/dme_explainable.sh">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="75">
-                  <caret line="5" column="0" lean-forward="false" selection-start-line="5" selection-start-column="0" selection-end-line="5" selection-end-column="0" />
+                <state relative-caret-position="18">
+                  <caret line="1" column="250" lean-forward="false" selection-start-line="1" selection-start-column="250" selection-end-line="1" selection-end-column="250" />
                   <folding />
                 </state>
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="__init__.py" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/paper_data/models/__init__.py">
+          <file leaf-file-name="od_and_fovea_detector_random_sample.sh" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/paper_data/idrid/od_and_fovea_detector_random_sample.sh">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="0">
-                  <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-                  <folding>
-                    <element signature="e#0#22#0" expanded="true" />
-                  </folding>
+                <state relative-caret-position="180">
+                  <caret line="10" column="282" lean-forward="false" selection-start-line="10" selection-start-column="282" selection-end-line="10" selection-end-column="282" />
+                  <folding />
                 </state>
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="__init__.py" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/paper_data/utils/__init__.py">
+          <file leaf-file-name="od_and_fovea_detector_random_sample.py" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/paper_data/od_and_fovea_detector_random_sample.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="45">
-                  <caret line="3" column="20" lean-forward="false" selection-start-line="3" selection-start-column="20" selection-end-line="3" selection-end-column="20" />
-                  <folding>
-                    <element signature="e#0#19#0" expanded="true" />
-                  </folding>
+                <state relative-caret-position="394">
+                  <caret line="260" column="40" lean-forward="false" selection-start-line="260" selection-start-column="17" selection-end-line="260" selection-end-column="40" />
+                  <folding />
                 </state>
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="train.log" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/paper_data/output/emei_od_and_fovea_detection_train_20171114113745_rsn34_od_and_fovea_detection/train.log">
+          <file leaf-file-name=".gitignore" pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/.gitignore">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="-6676">
-                  <caret line="0" column="23" lean-forward="false" selection-start-line="0" selection-start-column="22" selection-end-line="0" selection-end-column="23" />
+                <state relative-caret-position="126">
+                  <caret line="7" column="17" lean-forward="false" selection-start-line="7" selection-start-column="17" selection-end-line="7" selection-end-column="17" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="nccl.py" pinned="false" current-in-tab="false">
+            <entry file="file://$USER_HOME$/anaconda3/lib/python3.6/site-packages/torch/cuda/nccl.py">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="407">
+                  <caret line="202" column="30" lean-forward="false" selection-start-line="202" selection-start-column="30" selection-end-line="202" selection-end-column="30" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="detection_common_model.py" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/paper_data/detection_common_model.py">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="1692">
+                  <caret line="95" column="54" lean-forward="false" selection-start-line="95" selection-start-column="54" selection-end-line="95" selection-end-column="54" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="module.py" pinned="false" current-in-tab="false">
+            <entry file="file://$USER_HOME$/anaconda3/lib/python3.6/site-packages/torch/nn/modules/module.py">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="2502">
+                  <caret line="146" column="0" lean-forward="false" selection-start-line="146" selection-start-column="0" selection-end-line="146" selection-end-column="0" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="data_parallel.py" pinned="false" current-in-tab="false">
+            <entry file="file://$USER_HOME$/anaconda3/lib/python3.6/site-packages/torch/nn/parallel/data_parallel.py">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="684">
+                  <caret line="42" column="0" lean-forward="false" selection-start-line="42" selection-start-column="0" selection-end-line="42" selection-end-column="0" />
                   <folding />
                 </state>
               </provider>
@@ -117,7 +134,7 @@
           <file leaf-file-name="mask_rcnn.py" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/models/modules/mask_rcnn.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="542">
+                <state relative-caret-position="3942">
                   <caret line="227" column="30" lean-forward="false" selection-start-line="227" selection-start-column="25" selection-end-line="227" selection-end-column="30" />
                   <folding>
                     <element signature="e#24#61#0" expanded="true" />
@@ -140,7 +157,7 @@
           <file leaf-file-name="od_detector.py" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/paper_data/od_detector.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="1710">
+                <state relative-caret-position="2052">
                   <caret line="152" column="26" lean-forward="false" selection-start-line="152" selection-start-column="26" selection-end-line="152" selection-end-column="26" />
                   <folding>
                     <element signature="e#44#53#0" expanded="true" />
@@ -150,22 +167,10 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="data_xml.py" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/paper_data/data_xml.py">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="465">
-                  <caret line="39" column="8" lean-forward="false" selection-start-line="39" selection-start-column="8" selection-end-line="56" selection-end-column="32" />
-                  <folding>
-                    <element signature="e#0#48#0" expanded="true" />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
           <file leaf-file-name="fovea_detector.py" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/paper_data/fovea_detector.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="1890">
+                <state relative-caret-position="2268">
                   <caret line="165" column="53" lean-forward="false" selection-start-line="165" selection-start-column="43" selection-end-line="165" selection-end-column="53" />
                   <folding>
                     <element signature="e#3952#6451#0" expanded="false" />
@@ -194,18 +199,28 @@
           <file leaf-file-name="od_detector_random_sample_task.sh" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/paper_data/od_detector_random_sample_task.sh">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="15">
+                <state relative-caret-position="18">
                   <caret line="1" column="275" lean-forward="false" selection-start-line="1" selection-start-column="65" selection-end-line="1" selection-end-column="275" />
                   <folding />
                 </state>
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="od_detector_random_sample.py" pinned="false" current-in-tab="false">
+          <file leaf-file-name="od_detector_task.sh" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/paper_data/od_detector_task.sh">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="0">
+                  <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="od_detector_random_sample.py" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/paper_data/od_detector_random_sample.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="5475">
-                  <caret line="587" column="27" lean-forward="false" selection-start-line="587" selection-start-column="27" selection-end-line="587" selection-end-column="27" />
+                <state relative-caret-position="321">
+                  <caret line="556" column="7" lean-forward="false" selection-start-line="556" selection-start-column="7" selection-end-line="556" selection-end-column="7" />
                   <folding>
                     <element signature="e#2685#8847#0" expanded="false" />
                     <element signature="e#4122#6620#0" expanded="false" />
@@ -220,11 +235,21 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="fovea_detector_random_sample.py" pinned="false" current-in-tab="true">
+          <file leaf-file-name="fovea_detector_random_sample.py" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/paper_data/fovea_detector_random_sample.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="251">
+                <state relative-caret-position="10170">
                   <caret line="566" column="14" lean-forward="false" selection-start-line="566" selection-start-column="14" selection-end-line="566" selection-end-column="14" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="od_s_detector_random_sample.log" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/paper_data/od_s_detector_random_sample.log">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="0">
+                  <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
                   <folding />
                 </state>
               </provider>
@@ -243,9 +268,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>optimizer</find>
-      <find>gt_boxes</find>
-      <find>gt_argmax_overlaps</find>
       <find>nms_detections</find>
       <find>anchor</find>
       <find>adjust_learning_rate</find>
@@ -273,6 +295,9 @@
       <find>__bbox_trans</find>
       <find>PIL</find>
       <find>inv</find>
+      <find>DRDetection_predict_raw</find>
+      <find>we</find>
+      <find>model_seg</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -281,7 +306,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/models/modules/roi_align/modules/roi_align.py" />
         <option value="$PROJECT_DIR$/test/task.md" />
         <option value="$PROJECT_DIR$/test/test.py" />
         <option value="$PROJECT_DIR$/test/data.py" />
@@ -298,7 +322,6 @@
         <option value="$PROJECT_DIR$/paper_data/function_test/xml_test.py" />
         <option value="$PROJECT_DIR$/paper_data/output/emei_od&amp;fovea_detection_train_20171013153313_rsn34_od&amp;fovea_detection/train.log" />
         <option value="$PROJECT_DIR$/paper_data/output/emei_od_and_fovea_detection_train_20171013160546_rsn34_od_and_fovea_detection/train.log" />
-        <option value="$PROJECT_DIR$/.gitignore" />
         <option value="$PROJECT_DIR$/paper_data/od_detector_iou_loss.py" />
         <option value="$PROJECT_DIR$/paper_data/od_detector_utils.py" />
         <option value="$PROJECT_DIR$/utils.py" />
@@ -328,17 +351,19 @@
         <option value="$PROJECT_DIR$/paper_data/detection_common_model.py" />
         <option value="$PROJECT_DIR$/paper_data/od_and_fovea_detector_random_sample.py" />
         <option value="$PROJECT_DIR$/paper_data/output/emei_od_and_fovea_detection_train_20171114113745_rsn34_od_and_fovea_detection/train.log" />
-        <option value="$PROJECT_DIR$/paper_data/od_and_fovea_detector_random_sample.sh" />
         <option value="$PROJECT_DIR$/paper_data/utils/__init__.py" />
-        <option value="$PROJECT_DIR$/paper_data/dme_explainable.py" />
         <option value="$PROJECT_DIR$/paper_data/dme_explainable.sh" />
+        <option value="$PROJECT_DIR$/paper_data/dme_explainable.py" />
+        <option value="$PROJECT_DIR$/paper_data/idrid/od_and_fovea_detector_random_sample.sh" />
+        <option value="$PROJECT_DIR$/paper_data/od_and_fovea_detector_random_sample.sh" />
+        <option value="$PROJECT_DIR$/.gitignore" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="1920" />
+    <option name="y" value="27" />
     <option name="width" value="1920" />
-    <option name="height" value="1080" />
+    <option name="height" value="1173" />
   </component>
   <component name="ProjectView">
     <navigator currentView="ProjectPane" proportions="" version="1">
@@ -357,30 +382,24 @@
     <panes>
       <pane id="ProjectPane">
         <subPane>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="mask_rcnn_pytorch" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="mask_rcnn_pytorch" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="mask_rcnn_pytorch" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="mask_rcnn_pytorch" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="paper_data" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
+          <expand>
+            <path>
+              <item name="mask_rcnn_pytorch" type="b2602c69:ProjectViewProjectNode" />
+              <item name="mask_rcnn_pytorch" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="mask_rcnn_pytorch" type="b2602c69:ProjectViewProjectNode" />
+              <item name="mask_rcnn_pytorch" type="462c0819:PsiDirectoryNode" />
+              <item name="paper_data" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="mask_rcnn_pytorch" type="b2602c69:ProjectViewProjectNode" />
+              <item name="mask_rcnn_pytorch" type="462c0819:PsiDirectoryNode" />
+              <item name="paper_data" type="462c0819:PsiDirectoryNode" />
+              <item name="idrid" type="462c0819:PsiDirectoryNode" />
+            </path>
+          </expand>
+          <select />
         </subPane>
       </pane>
       <pane id="Scope" />
@@ -388,7 +407,7 @@
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../DiabeticRetinopathy_solution/web_service/kaggle_data_server_test.py" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
@@ -407,76 +426,8 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.dme_explainable">
-    <configuration default="false" name="test" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/paper_data" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="mask_rcnn_pytorch" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/paper_data/test.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <method />
-    </configuration>
-    <configuration default="false" name="od_s_detector_random_sample" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/paper_data" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="mask_rcnn_pytorch" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/paper_data/od_s_detector_random_sample.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <method />
-    </configuration>
-    <configuration default="false" name="predict_common" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/paper_data" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="mask_rcnn_pytorch" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/paper_data/predict_common.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <method />
-    </configuration>
-    <configuration default="false" name="od_and_fovea_detector_random_sample" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/paper_data" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="mask_rcnn_pytorch" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/paper_data/od_and_fovea_detector_random_sample.py" />
-      <option name="PARAMETERS" value="--weight $PROJECT_DIR$/paper_data/output/emei_od_and_fovea_detection_train_20171114113745_rsn34_od_and_fovea_detection/emei_od_and_fovea_detection_rsn34_00342_best.pth --phase test" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <method />
-    </configuration>
-    <configuration default="false" name="dme_explainable" type="PythonConfigurationType" factoryName="Python" temporary="true">
+  <component name="RunManager" selected="Python.od_and_fovea_detector_random_sample">
+    <configuration name="dme_explainable" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
@@ -491,7 +442,80 @@
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/paper_data/dme_explainable.py" />
       <option name="PARAMETERS" value="--weight $PROJECT_DIR$/paper_data/output/emei_od_and_fovea_detection_train_20171114113745_rsn34_od_and_fovea_detection/emei_od_and_fovea_detection_rsn34_02164_best.pth --phase test --weight_seg $PROJECT_DIR$/../../dr/RetinalImagesVesselExtraction/task/output/common_lesions_segmentaion_train_20171114173605_unet_whole_images_ex/common_segmentation_unet_1634_best.pth --model_seg unet" />
       <option name="SHOW_COMMAND_LINE" value="false" />
-      <method />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+    </configuration>
+    <configuration name="od_and_fovea_detector_random_sample" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/paper_data" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="mask_rcnn_pytorch" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/paper_data/od_and_fovea_detector_random_sample.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+    </configuration>
+    <configuration name="od_s_detector_random_sample" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/paper_data" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="mask_rcnn_pytorch" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/paper_data/od_s_detector_random_sample.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+    </configuration>
+    <configuration name="predict_common" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/paper_data" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="mask_rcnn_pytorch" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/paper_data/predict_common.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+    </configuration>
+    <configuration name="test" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/paper_data" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="mask_rcnn_pytorch" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/paper_data/test.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
     </configuration>
     <configuration default="true" type="BashConfigurationType" factoryName="Bash">
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -647,8 +671,8 @@
     </list>
     <recent_temporary>
       <list size="5">
-        <item index="0" class="java.lang.String" itemvalue="Python.dme_explainable" />
-        <item index="1" class="java.lang.String" itemvalue="Python.od_and_fovea_detector_random_sample" />
+        <item index="0" class="java.lang.String" itemvalue="Python.od_and_fovea_detector_random_sample" />
+        <item index="1" class="java.lang.String" itemvalue="Python.dme_explainable" />
         <item index="2" class="java.lang.String" itemvalue="Python.predict_common" />
         <item index="3" class="java.lang.String" itemvalue="Python.od_s_detector_random_sample" />
         <item index="4" class="java.lang.String" itemvalue="Python.test" />
@@ -657,6 +681,9 @@
   </component>
   <component name="ShelveChangesManager" show_recycled="false">
     <option name="remove_strategy" value="false" />
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -669,25 +696,25 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="1920" y="0" width="1920" height="1080" extended-state="6" />
-    <editor active="false" />
+    <frame x="0" y="27" width="1920" height="1173" extended-state="0" />
+    <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25738397" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2278481" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.39780658" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.23763336" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3297769" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.23763336" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2989011" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25762045" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4582104" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.31098902" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4100295" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Data View" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
     </layout>
@@ -845,6 +872,31 @@
           <line>89</line>
           <option name="timeStamp" value="177" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/paper_data/od_and_fovea_detector_random_sample.py</url>
+          <line>135</line>
+          <option name="timeStamp" value="188" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/paper_data/od_and_fovea_detector_random_sample.py</url>
+          <line>138</line>
+          <option name="timeStamp" value="190" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/paper_data/od_and_fovea_detector_random_sample.py</url>
+          <line>139</line>
+          <option name="timeStamp" value="191" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/paper_data/od_and_fovea_detector_random_sample.py</url>
+          <line>224</line>
+          <option name="timeStamp" value="192" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/paper_data/detection_common_model.py</url>
+          <line>102</line>
+          <option name="timeStamp" value="193" />
+        </line-breakpoint>
       </breakpoints>
       <breakpoints-dialog>
         <breakpoints-dialog />
@@ -856,7 +908,7 @@
           </properties>
         </breakpoint>
       </default-breakpoints>
-      <option name="time" value="187" />
+      <option name="time" value="194" />
     </breakpoint-manager>
     <watches-manager>
       <configuration name="PythonConfigurationType">
@@ -873,103 +925,10 @@
     </watches-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$USER_HOME$/.PyCharmCE2016.3/system/python_stubs/1705119295/cv2/__init__.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="201">
-          <caret line="2876" column="20" lean-forward="false" selection-start-line="2876" selection-start-column="19" selection-end-line="2876" selection-end-column="20" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/models/modules/nms/cpu_nms.pyx">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="228">
-          <caret line="43" column="21" lean-forward="false" selection-start-line="43" selection-start-column="21" selection-end-line="43" selection-end-column="21" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/paper_data/data/data/12327_left_512.png">
-      <provider selected="true" editor-type-id="images">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/paper_data/output/emei_od_and_fovea_detection_train_20171103173318_rsn34_od_and_fovea_detection/train.log">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="240">
-          <caret line="16" column="22" lean-forward="false" selection-start-line="3" selection-start-column="8" selection-end-line="16" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/paper_data/od_detector_random_sample.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="5475">
-          <caret line="587" column="27" lean-forward="false" selection-start-line="587" selection-start-column="27" selection-end-line="587" selection-end-column="27" />
-          <folding>
-            <element signature="e#2685#8847#0" expanded="false" />
-            <element signature="e#4122#6620#0" expanded="false" />
-            <element signature="e#6772#7124#0" expanded="false" />
-            <element signature="e#7189#7541#0" expanded="false" />
-            <element signature="e#7599#7810#0" expanded="false" />
-            <element signature="e#7854#8788#0" expanded="false" />
-            <element signature="e#8895#13522#0" expanded="false" />
-            <element signature="e#10186#12684#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/paper_data/fovea_detector.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1890">
-          <caret line="165" column="53" lean-forward="false" selection-start-line="165" selection-start-column="43" selection-end-line="165" selection-end-column="53" />
-          <folding>
-            <element signature="e#3952#6451#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/anaconda3/lib/python3.6/site-packages/torch/nn/functional.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="170">
-          <caret line="814" column="68" lean-forward="false" selection-start-line="814" selection-start-column="68" selection-end-line="814" selection-end-column="68" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/.PyCharmCE2016.3/system/python_stubs/1705119295/math.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="475">
-          <caret line="139" column="4" lean-forward="false" selection-start-line="139" selection-start-column="4" selection-end-line="139" selection-end-column="4" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/anaconda3/lib/python3.6/site-packages/torch/utils/data/dataloader.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="212">
-          <caret line="178" column="0" lean-forward="false" selection-start-line="178" selection-start-column="0" selection-end-line="178" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/paper_data/od_detector_random_sample_task.sh">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="15">
-          <caret line="1" column="275" lean-forward="false" selection-start-line="1" selection-start-column="65" selection-end-line="1" selection-end-column="275" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/paper_data/data/ex/47.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="12" column="28" lean-forward="false" selection-start-line="12" selection-start-column="28" selection-end-line="12" selection-end-column="28" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/paper_data/test.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="270">
           <caret line="18" column="20" lean-forward="false" selection-start-line="18" selection-start-column="16" selection-end-line="18" selection-end-column="20" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -989,7 +948,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1002,7 +960,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1023,13 +980,12 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="330">
           <caret line="22" column="28" lean-forward="false" selection-start-line="22" selection-start-column="28" selection-end-line="22" selection-end-column="28" />
-          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/paper_data/od_detector.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1710">
+        <state relative-caret-position="2052">
           <caret line="152" column="26" lean-forward="false" selection-start-line="152" selection-start-column="26" selection-end-line="152" selection-end-column="26" />
           <folding>
             <element signature="e#44#53#0" expanded="true" />
@@ -1042,9 +998,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="870">
           <caret line="64" column="64" lean-forward="false" selection-start-line="64" selection-start-column="64" selection-end-line="64" selection-end-column="64" />
-          <folding>
-            <element signature="e#0#21#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1052,7 +1005,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="45">
           <caret line="3" column="8" lean-forward="false" selection-start-line="3" selection-start-column="7" selection-end-line="3" selection-end-column="8" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1060,15 +1012,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="424">
           <caret line="49" column="0" lean-forward="false" selection-start-line="49" selection-start-column="0" selection-end-line="49" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/paper_data/od_s_detector_random_sample.sh">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="15">
-          <caret line="1" column="250" lean-forward="false" selection-start-line="1" selection-start-column="250" selection-end-line="1" selection-end-column="250" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1076,15 +1019,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/paper_data/od_s_detector_random_sample.log">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1095,7 +1029,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/models/modules/mask_rcnn.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="542">
+        <state relative-caret-position="3942">
           <caret line="227" column="30" lean-forward="false" selection-start-line="227" selection-start-column="25" selection-end-line="227" selection-end-column="30" />
           <folding>
             <element signature="e#24#61#0" expanded="true" />
@@ -1118,7 +1052,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-1785">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1126,7 +1059,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="450">
           <caret line="53" column="37" lean-forward="false" selection-start-line="53" selection-start-column="14" selection-end-line="53" selection-end-column="37" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1135,24 +1067,16 @@
         <state relative-caret-position="-556">
           <caret line="369" column="0" lean-forward="false" selection-start-line="369" selection-start-column="0" selection-end-line="406" selection-end-column="0" />
           <folding>
-            <element signature="e#44#53#0" expanded="true" />
+            <element signature="e#44#53#0" expanded="false" />
             <element signature="e#9249#13876#0" expanded="false" />
             <element signature="e#16262#17664#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/paper_data/detection_common_model.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="554">
-          <caret line="151" column="0" lean-forward="false" selection-start-line="151" selection-start-column="0" selection-end-line="151" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/paper_data/fovea_detector_random_sample.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="251">
+        <state relative-caret-position="10170">
           <caret line="566" column="14" lean-forward="false" selection-start-line="566" selection-start-column="14" selection-end-line="566" selection-end-column="14" />
           <folding />
         </state>
@@ -1162,15 +1086,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="15">
           <caret line="1" column="278" lean-forward="false" selection-start-line="1" selection-start-column="278" selection-end-line="1" selection-end-column="278" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/paper_data/od_and_fovea_detector_random_sample.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="385">
-          <caret line="250" column="29" lean-forward="false" selection-start-line="250" selection-start-column="29" selection-end-line="250" selection-end-column="29" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1178,38 +1093,13 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/paper_data/output/emei_od_and_fovea_detection_train_20171114113745_rsn34_od_and_fovea_detection/train.log">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-6676">
+        <state relative-caret-position="0">
           <caret line="0" column="23" lean-forward="false" selection-start-line="0" selection-start-column="22" selection-end-line="0" selection-end-column="23" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/paper_data/predict_common.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="329">
-          <caret line="87" column="17" lean-forward="false" selection-start-line="87" selection-start-column="4" selection-end-line="87" selection-end-column="17" />
-          <folding>
-            <element signature="e#564#1497#0" expanded="false" />
-            <element signature="e#2485#2744#0" expanded="false" />
-            <element signature="e#3079#3445#0" expanded="false" />
-            <element signature="e#3489#5982#0" expanded="false" />
-            <element signature="e#6029#7723#0" expanded="false" />
-            <element signature="e#9328#9972#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/paper_data/od_and_fovea_detector_random_sample.sh">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="135">
-          <caret line="9" column="0" lean-forward="false" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="453" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1217,7 +1107,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1225,7 +1114,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1233,7 +1121,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1241,7 +1128,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-2025">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1249,9 +1135,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-360">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#10#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1259,25 +1142,14 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1420">
           <caret line="308" column="0" lean-forward="false" selection-start-line="308" selection-start-column="0" selection-end-line="308" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/paper_data/utils-bk/utils.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="220">
-          <caret line="258" column="9" lean-forward="false" selection-start-line="258" selection-start-column="6" selection-end-line="258" selection-end-column="9" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/paper_data/utils-bk/utils.py" />
     <entry file="file://$PROJECT_DIR$/paper_data/utils/__init__.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="45">
+        <state relative-caret-position="54">
           <caret line="3" column="20" lean-forward="false" selection-start-line="3" selection-start-column="20" selection-end-line="3" selection-end-column="20" />
-          <folding>
-            <element signature="e#0#19#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1285,26 +1157,164 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#22#0" expanded="true" />
-          </folding>
         </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/paper_data/result/dme_explainable/78f.png">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/paper_data/result/dme_explainable/78d.png">
+      <provider selected="true" editor-type-id="images">
+        <state />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/paper_data/dme_explainable.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="153">
-          <caret line="247" column="32" lean-forward="false" selection-start-line="247" selection-start-column="32" selection-end-line="247" selection-end-column="32" />
-          <folding>
-            <element signature="e#44#53#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="325">
+          <caret line="274" column="74" lean-forward="false" selection-start-line="274" selection-start-column="74" selection-end-line="274" selection-end-column="74" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/paper_data/dme_explainable.sh">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="75">
-          <caret line="5" column="0" lean-forward="false" selection-start-line="5" selection-start-column="0" selection-end-line="5" selection-end-column="0" />
+        <state relative-caret-position="54">
+          <caret line="3" column="13" lean-forward="false" selection-start-line="3" selection-start-column="13" selection-end-line="3" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/paper_data/od_s_detector_random_sample.sh">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="18">
+          <caret line="1" column="250" lean-forward="false" selection-start-line="1" selection-start-column="250" selection-end-line="1" selection-end-column="250" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/paper_data/predict_common.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1224">
+          <caret line="152" column="27" lean-forward="false" selection-start-line="152" selection-start-column="23" selection-end-line="152" selection-end-column="27" />
+          <folding>
+            <element signature="e#564#1497#0" expanded="false" />
+            <element signature="e#2485#2744#0" expanded="false" />
+            <element signature="e#3079#3445#0" expanded="false" />
+            <element signature="e#3489#5982#0" expanded="false" />
+            <element signature="e#9328#9972#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/paper_data/od_s_detector_random_sample.log">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/paper_data/od_detector_random_sample_task.sh">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="18">
+          <caret line="1" column="275" lean-forward="false" selection-start-line="1" selection-start-column="65" selection-end-line="1" selection-end-column="275" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/paper_data/data_xml.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="558">
+          <caret line="39" column="8" lean-forward="false" selection-start-line="39" selection-start-column="8" selection-end-line="56" selection-end-column="32" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/paper_data/od_detector_task.sh">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/paper_data/idrid/od_and_fovea_detector_random_sample.sh">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="180">
+          <caret line="10" column="282" lean-forward="false" selection-start-line="10" selection-start-column="282" selection-end-line="10" selection-end-column="282" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/paper_data/od_and_fovea_detector_random_sample.sh">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="18">
+          <caret line="1" column="0" lean-forward="false" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/anaconda3/lib/python3.6/site-packages/torch/nn/parallel/data_parallel.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="684">
+          <caret line="42" column="0" lean-forward="false" selection-start-line="42" selection-start-column="0" selection-end-line="42" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/anaconda3/lib/python3.6/site-packages/torch/nn/modules/module.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2502">
+          <caret line="146" column="0" lean-forward="false" selection-start-line="146" selection-start-column="0" selection-end-line="146" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/paper_data/detection_common_model.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1692">
+          <caret line="95" column="54" lean-forward="false" selection-start-line="95" selection-start-column="54" selection-end-line="95" selection-end-column="54" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/paper_data/od_detector_random_sample.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="321">
+          <caret line="556" column="7" lean-forward="false" selection-start-line="556" selection-start-column="7" selection-end-line="556" selection-end-column="7" />
+          <folding>
+            <element signature="e#2685#8847#0" expanded="false" />
+            <element signature="e#4122#6620#0" expanded="false" />
+            <element signature="e#6772#7124#0" expanded="false" />
+            <element signature="e#7189#7541#0" expanded="false" />
+            <element signature="e#7599#7810#0" expanded="false" />
+            <element signature="e#7854#8788#0" expanded="false" />
+            <element signature="e#8895#13522#0" expanded="false" />
+            <element signature="e#10186#12684#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/anaconda3/lib/python3.6/site-packages/torch/cuda/nccl.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="407">
+          <caret line="202" column="30" lean-forward="false" selection-start-line="202" selection-start-column="30" selection-end-line="202" selection-end-column="30" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/paper_data/od_and_fovea_detector_random_sample.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="394">
+          <caret line="260" column="40" lean-forward="false" selection-start-line="260" selection-start-column="17" selection-end-line="260" selection-end-column="40" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.gitignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="126">
+          <caret line="7" column="17" lean-forward="false" selection-start-line="7" selection-start-column="17" selection-end-line="7" selection-end-column="17" />
           <folding />
         </state>
       </provider>

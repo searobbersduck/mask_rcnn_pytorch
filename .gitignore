@@ -4,6 +4,8 @@ save
 .idea
 paper_data/output/
 pretrained
+paper_data/idrid
+paper_data/result
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

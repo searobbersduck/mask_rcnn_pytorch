@@ -227,7 +227,7 @@ def scale_image_seg(pil_img, scale_size):
         image = image.resize((tw, th), Image.CUBIC)
     return image
 
-def seg_around_fovea(model_seg, pil_raw_img, fovea_center_x, fovea_center_y, optic_disc_d):
+def seg_around_fovea(model_seg, pil_raw_img, fovea_center_x, fovea_center_y, optic_disc_d, save_name = None):
     model_seg.eval()
     pil_patch = pil_raw_img.crop((fovea_center_x-optic_disc_d, fovea_center_y-optic_disc_d,
                                   fovea_center_x+optic_disc_d, fovea_center_y+optic_disc_d))
@@ -260,14 +260,37 @@ def seg_around_fovea(model_seg, pil_raw_img, fovea_center_x, fovea_center_y, opt
     pred_image *= 255
     o_img = np.array(pred_image, dtype=np.uint8)
 
+    # cv_label = cv2.imread(label_256_path, cv2.IMREAD_GRAYSCALE)
+    # thresh, cv_label = cv2.threshold(cv_label, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
+    # kernel = np.ones((4, 4), np.uint8)  # 生成一个6x6的核
+    # erosion = cv2.erode(cv_label, kernel, iterations=1)  # 调用腐蚀算法
+    # dilation = cv2.dilate(erosion, kernel, iterations=1)  # 调用膨胀算法
+    # pil_label = Image.fromarray(dilation)
+    # pil_mask = Image.open(maskpath).convert('L')
+    # pil_label_resized = pil_label.resize(pil_mask.size)
+    # pil_label_cropped = Image.new('L', pil_label_resized.size)
+    # crop_img = pil_label_resized.crop(bbox_list[bbox_index])
+    # pil_label_cropped.paste(crop_img, bbox_list[bbox_index])
+    # pil_label_cropped.save(os.path.join(args.labelsout1, outlabelpath))
+    thresh, cv_label = cv2.threshold(o_img, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
+    kernel = np.ones((2, 2), np.uint8)  # 生成一个6x6的核
+    erosion = cv2.erode(cv_label, kernel, iterations=1)  # 调用腐蚀算法
+    kernel = np.ones((2, 2), np.uint8)
+    dilation = cv2.dilate(erosion, kernel, iterations=2)  # 调用膨胀算法
+
+
     raw_img = np.array(out_ahe_img, dtype=np.uint8)
     raw_img = cv2.cvtColor(raw_img, cv2.COLOR_RGB2BGR)
     stitch_img = np.empty((raw_img.shape[0], raw_img.shape[1] * 2, 3), dtype=np.uint8)
     stitch_img[:, :raw_img.shape[0]] = raw_img
-    pred_image = cv2.cvtColor(pred_image, cv2.COLOR_GRAY2RGB)
+    pred_image = cv2.cvtColor(dilation, cv2.COLOR_GRAY2RGB)
     stitch_img[:, raw_img.shape[0]:] = pred_image
-    cv2.imshow('pred_image', stitch_img)
-    cv2.waitKey(2000)
+    # cv2.imshow('pred_image', stitch_img)
+    # cv2.waitKey(2000)
+
+    if save_name is not None:
+        cv2.imwrite(save_name, stitch_img)
+        print('====> save seg image: {}'.format(save_name))
 
     print('seg around fovea')
 
@@ -318,12 +341,20 @@ def cls_predict_dme(val_data_loader, model, model_seg, criterion, display):
         d = max(bbox[2] - bbox[0], bbox[3] - bbox[1])
         cv2.rectangle(im2show, (bbox[4] - d, bbox[5] - d), (bbox[4] + d, bbox[5] + d), (255, 255, 0), 4)
         cv2.circle(im2show, (bbox[4], bbox[5]), 4, (0, 255, 255))
-        cv2.imshow('test', im2show)
-        cv2.waitKey(2000)
+        # cv2.imshow('test', im2show)
+        # cv2.waitKey(2000)
+
+        root = './result/dme_explainable'
+        basename = os.path.basename(image_paths[0]).split('.')[0]+'d.png'
+        basename1 = os.path.basename(image_paths[0]).split('.')[0] + 'f.png'
+        basename = os.path.join(root, basename)
+        basename1 = os.path.join(root, basename1)
+        cv2.imwrite(basename, im2show)
+        print('====> save detection img: {}'.format(basename))
 
         bbox = pts_trans_inv(bbox, l, u, ratio)
         d = max(bbox[2]-bbox[0], bbox[3]-bbox[1])
-        seg_around_fovea(model_seg, raw_raw, bbox[4], bbox[5], d)
+        seg_around_fovea(model_seg, raw_raw, bbox[4], bbox[5], d, basename1)
 
     print_info = '[optic_disc detection]:\tthreshold:{}\tdetection accuracy:{}'.format(0.5, result.sum() / len(result))
     print(print_info)
