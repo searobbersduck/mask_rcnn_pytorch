@@ -40,7 +40,9 @@ import torch.backends.cudnn as cudnn
 from utils import PILColorJitter, Lighting
 
 from predict_common import DRDetection_predict_raw, pts_trans_inv, scale_image, \
-    get_detect_od_array, get_random_bbox, DRDetectionDS_od_and_fovea_xml, DRDetectionDS_od_and_fovea_predict_xml
+    get_detect_od_array, get_random_bbox, \
+    DRDetectionDS_od_and_fovea_xml, DRDetectionDS_od_and_fovea_predict_xml, \
+    DRDetection_predict_jpg_folder, DRDetection_predict_png_folder
 
 from detection_common_model import cls_model_od_and_fovea, cls_train, cls_val
 
@@ -183,6 +185,53 @@ def cls_predict(val_data_loader, model, criterion, display):
 
     return logger
 
+def predict_common_func1(final, image_paths, params, out_dir):
+    pred_od_bboxs = final.data.cpu().numpy()
+    for image_file in image_paths:
+        raw = Image.open(image_paths[0])
+        raw,_,_,_ = scale_image(raw, 512)
+        raw = np.array(raw)
+        im2show = np.copy(raw)
+        im2show = cv2.cvtColor(im2show, cv2.COLOR_RGB2BGR)
+        bbox = final.data[0].cpu().numpy()
+        bbox = [int(x) for x in bbox]
+        param = [params[0][0], params[1][0], params[2][0]]
+        # bbox = pts_trans_inv(bbox, param[0], param[1], param[2])
+        cv2.rectangle(im2show, (bbox[0], bbox[1]), (bbox[2], bbox[3]), (255, 255, 0), 4)
+        # width = bbox[2] - bbox[0]
+        # height = bbox[3] - bbox[1]
+        #
+        # cv2.rectangle(im2show, (bbox[4]-width//2, bbox[5]-height//2), (bbox[4]+width//2, bbox[5]+height//2), (0, 255, 255), 4)
+        cv2.rectangle(im2show, (bbox[4] - 20, bbox[5] - 20), (bbox[4] + 20, bbox[5] + 20), (255, 255, 0), 4)
+        cv2.circle(im2show, (bbox[4], bbox[5]), 4, (0, 255, 255))
+        cv2.imshow('test', im2show)
+        os.makedirs(out_dir, exist_ok=True)
+        out_file = os.path.join(out_dir, os.path.basename(image_file).split('.')[0]+'_det.jpg')
+        cv2.imwrite(out_file, im2show)
+        # cv2.waitKey(2000)
+
+def cls_predict_idrid(val_data_loader, model, criterion, display):
+    model.eval()
+    batch_time = AverageMeter()
+    data_time = AverageMeter()
+    losses = AverageMeter()
+    result = np.array([], dtype=int)
+    ious = np.array([], dtype=float)
+    images_list = []
+    end = time.time()
+    logger = []
+    trans = ToPILImage()
+    for num_iter, (images, image_paths, params) in enumerate(val_data_loader):
+        for image_file in image_paths:
+            images_list.append(image_file)
+        data_time.update(time.time() - end)
+        final, map = model(Variable(images))
+        # loss = criterion(final, bbox_od)
+        batch_time.update(time.time() - end)
+        end = time.time()
+        predict_common_func1(final, image_paths, params, '/media/weidong/seagate_data/dataset/IDRID Challenge/IDRID 3/det_out_test')
+
+    return logger
 
 def main():
     print('===> Parsing options')
@@ -257,10 +306,18 @@ def main():
             #                       512),
             #     shuffle=False, pin_memory=False, batch_size=1)
             # logger = cls_eval(dataloader, nn.DataParallel(model).cuda(), criterion, opt.display)
-            root = '//home/weidong/code/github/ex'
-            ds = DRDetection_predict_raw(root, root, 512)
+
+            # root = '//home/weidong/code/github/ex'
+            # ds = DRDetection_predict_raw(root, root, 512)
+            # dataloader = DataLoader(ds, batch_size=2, shuffle=False)
+            # logger = cls_predict(dataloader, nn.DataParallel(model).cuda(), criterion, opt.display)
+
+            # root = '/media/weidong/seagate_data/dataset/IDRID Challenge/IDRID 3/Training c'
+            root = '/media/weidong/seagate_data/dataset/IDRID Challenge/IDRID 3/test/raw'
+            ds = DRDetection_predict_png_folder(root, 512)
             dataloader = DataLoader(ds, batch_size=2, shuffle=False)
-            logger = cls_predict(dataloader, nn.DataParallel(model).cuda(), criterion, opt.display)
+            logger = cls_predict_idrid(dataloader, nn.DataParallel(model).cuda(), criterion, opt.display)
+
             if not os.path.isfile(os.path.join(output_dir, 'predict.log')):
                 with open(os.path.join(output_dir, 'predict.log'), 'w') as fp:
                     fp.write(str(opt)+'\n\n')

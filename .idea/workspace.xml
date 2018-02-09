@@ -2,10 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b7e0ba31-0c52-4160-883c-ee3b2d845e97" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.gitignore" afterPath="$PROJECT_DIR$/.gitignore" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/paper_data/dme_explainable.py" afterPath="$PROJECT_DIR$/paper_data/dme_explainable.py" />
-      <change beforePath="$PROJECT_DIR$/paper_data/od_and_fovea_detector_random_sample.sh" afterPath="$PROJECT_DIR$/paper_data/od_and_fovea_detector_random_sample.sh" />
+      <change beforePath="$PROJECT_DIR$/paper_data/od_and_fovea_detector_random_sample.py" afterPath="$PROJECT_DIR$/paper_data/od_and_fovea_detector_random_sample.py" />
+      <change beforePath="$PROJECT_DIR$/paper_data/predict_common.py" afterPath="$PROJECT_DIR$/paper_data/predict_common.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -18,20 +17,21 @@
     <option name="PATCH_PATH" value="" />
   </component>
   <component name="FileEditorManager">
-    <splitter split-orientation="horizontal" split-proportion="0.60795456">
+    <splitter split-orientation="horizontal" split-proportion="0.38326585">
       <split-first>
         <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
           <file leaf-file-name="predict_common.py" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/paper_data/predict_common.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="1224">
-                  <caret line="152" column="27" lean-forward="false" selection-start-line="152" selection-start-column="23" selection-end-line="152" selection-end-column="27" />
+                <state relative-caret-position="2520">
+                  <caret line="250" column="36" lean-forward="false" selection-start-line="250" selection-start-column="6" selection-end-line="250" selection-end-column="36" />
                   <folding>
                     <element signature="e#564#1497#0" expanded="false" />
                     <element signature="e#2485#2744#0" expanded="false" />
                     <element signature="e#3079#3445#0" expanded="false" />
                     <element signature="e#3489#5982#0" expanded="false" />
-                    <element signature="e#9328#9972#0" expanded="false" />
+                    <element signature="e#7766#9214#0" expanded="false" />
+                    <element signature="e#11769#12413#0" expanded="false" />
                   </folding>
                 </state>
               </provider>
@@ -40,8 +40,8 @@
           <file leaf-file-name="od_and_fovea_detector_random_sample.sh" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/paper_data/od_and_fovea_detector_random_sample.sh">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="18">
-                  <caret line="1" column="0" lean-forward="false" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
+                <state relative-caret-position="0">
+                  <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
                   <folding />
                 </state>
               </provider>
@@ -51,17 +51,7 @@
             <entry file="file://$PROJECT_DIR$/paper_data/od_s_detector_random_sample.sh">
               <provider selected="true" editor-type-id="text-editor">
                 <state relative-caret-position="18">
-                  <caret line="1" column="250" lean-forward="false" selection-start-line="1" selection-start-column="250" selection-end-line="1" selection-end-column="250" />
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="od_and_fovea_detector_random_sample.sh" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/paper_data/idrid/od_and_fovea_detector_random_sample.sh">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="180">
-                  <caret line="10" column="282" lean-forward="false" selection-start-line="10" selection-start-column="282" selection-end-line="10" selection-end-column="282" />
+                  <caret line="1" column="259" lean-forward="false" selection-start-line="1" selection-start-column="259" selection-end-line="1" selection-end-column="259" />
                   <folding />
                 </state>
               </provider>
@@ -70,14 +60,46 @@
           <file leaf-file-name="od_and_fovea_detector_random_sample.py" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/paper_data/od_and_fovea_detector_random_sample.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="394">
-                  <caret line="260" column="40" lean-forward="false" selection-start-line="260" selection-start-column="17" selection-end-line="260" selection-end-column="40" />
+                <state relative-caret-position="3690">
+                  <caret line="205" column="26" lean-forward="false" selection-start-line="205" selection-start-column="19" selection-end-line="205" selection-end-column="26" />
+                  <folding>
+                    <element signature="e#44#53#0" expanded="true" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="single_channel_multi_task_cls_concatenate.py" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/../DiabeticRetinopathy_solution/paper_data/single_channel_multi_task_cls_concatenate.py">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="0">
+                  <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
                   <folding />
                 </state>
               </provider>
             </entry>
           </file>
-          <file leaf-file-name=".gitignore" pinned="false" current-in-tab="true">
+          <file leaf-file-name="single_channel_multi_task_cls_concatenate_roc.py" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/../DiabeticRetinopathy_solution/paper_data/single_channel_multi_task_cls_concatenate_roc.py">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="17190">
+                  <caret line="955" column="22" lean-forward="false" selection-start-line="955" selection-start-column="22" selection-end-line="955" selection-end-column="22" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="ranking.py" pinned="false" current-in-tab="true">
+            <entry file="file://$USER_HOME$/anaconda3/lib/python3.6/site-packages/sklearn/metrics/ranking.py">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="257">
+                  <caret line="430" column="54" lean-forward="false" selection-start-line="430" selection-start-column="54" selection-end-line="430" selection-end-column="54" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name=".gitignore" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/.gitignore">
               <provider selected="true" editor-type-id="text-editor">
                 <state relative-caret-position="126">
@@ -87,41 +109,24 @@
               </provider>
             </entry>
           </file>
+          <file leaf-file-name="od_s_detector_random_sample.py" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/paper_data/od_s_detector_random_sample.py">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="7650">
+                  <caret line="554" column="18" lean-forward="false" selection-start-line="554" selection-start-column="12" selection-end-line="554" selection-end-column="18" />
+                  <folding>
+                    <element signature="e#9249#13876#0" expanded="false" />
+                    <element signature="e#16262#17664#0" expanded="false" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
           <file leaf-file-name="nccl.py" pinned="false" current-in-tab="false">
             <entry file="file://$USER_HOME$/anaconda3/lib/python3.6/site-packages/torch/cuda/nccl.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="407">
+                <state relative-caret-position="3564">
                   <caret line="202" column="30" lean-forward="false" selection-start-line="202" selection-start-column="30" selection-end-line="202" selection-end-column="30" />
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="detection_common_model.py" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/paper_data/detection_common_model.py">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="1692">
-                  <caret line="95" column="54" lean-forward="false" selection-start-line="95" selection-start-column="54" selection-end-line="95" selection-end-column="54" />
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="module.py" pinned="false" current-in-tab="false">
-            <entry file="file://$USER_HOME$/anaconda3/lib/python3.6/site-packages/torch/nn/modules/module.py">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="2502">
-                  <caret line="146" column="0" lean-forward="false" selection-start-line="146" selection-start-column="0" selection-end-line="146" selection-end-column="0" />
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="data_parallel.py" pinned="false" current-in-tab="false">
-            <entry file="file://$USER_HOME$/anaconda3/lib/python3.6/site-packages/torch/nn/parallel/data_parallel.py">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="684">
-                  <caret line="42" column="0" lean-forward="false" selection-start-line="42" selection-start-column="0" selection-end-line="42" selection-end-column="0" />
                   <folding />
                 </state>
               </provider>
@@ -167,18 +172,6 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="fovea_detector.py" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/paper_data/fovea_detector.py">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="2268">
-                  <caret line="165" column="53" lean-forward="false" selection-start-line="165" selection-start-column="43" selection-end-line="165" selection-end-column="53" />
-                  <folding>
-                    <element signature="e#3952#6451#0" expanded="false" />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
           <file leaf-file-name="od_detector_utils.py" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/paper_data/od_detector_utils.py">
               <provider selected="true" editor-type-id="text-editor">
@@ -216,11 +209,11 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="od_detector_random_sample.py" pinned="false" current-in-tab="true">
+          <file leaf-file-name="od_detector_random_sample.py" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/paper_data/od_detector_random_sample.py">
               <provider selected="true" editor-type-id="text-editor">
                 <state relative-caret-position="321">
-                  <caret line="556" column="7" lean-forward="false" selection-start-line="556" selection-start-column="7" selection-end-line="556" selection-end-column="7" />
+                  <caret line="556" column="10" lean-forward="false" selection-start-line="556" selection-start-column="10" selection-end-line="556" selection-end-column="10" />
                   <folding>
                     <element signature="e#2685#8847#0" expanded="false" />
                     <element signature="e#4122#6620#0" expanded="false" />
@@ -231,6 +224,16 @@
                     <element signature="e#8895#13522#0" expanded="false" />
                     <element signature="e#10186#12684#0" expanded="false" />
                   </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="dme_explainable.py" pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/paper_data/dme_explainable.py">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="319">
+                  <caret line="478" column="43" lean-forward="false" selection-start-line="478" selection-start-column="43" selection-end-line="478" selection-end-column="43" />
+                  <folding />
                 </state>
               </provider>
             </entry>
@@ -268,7 +271,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>nms_detections</find>
       <find>anchor</find>
       <find>adjust_learning_rate</find>
       <find>decay_rate</find>
@@ -295,9 +297,10 @@
       <find>__bbox_trans</find>
       <find>PIL</find>
       <find>inv</find>
-      <find>DRDetection_predict_raw</find>
       <find>we</find>
       <find>model_seg</find>
+      <find>DRDetection_predict_raw</find>
+      <find>roc_curve</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -347,9 +350,7 @@
         <option value="$PROJECT_DIR$/paper_data/od_s_detector_random_sample.py" />
         <option value="$PROJECT_DIR$/paper_data/od_s_detector_random_sample.sh" />
         <option value="$PROJECT_DIR$/paper_data/dataset_utils.py" />
-        <option value="$PROJECT_DIR$/paper_data/predict_common.py" />
         <option value="$PROJECT_DIR$/paper_data/detection_common_model.py" />
-        <option value="$PROJECT_DIR$/paper_data/od_and_fovea_detector_random_sample.py" />
         <option value="$PROJECT_DIR$/paper_data/output/emei_od_and_fovea_detection_train_20171114113745_rsn34_od_and_fovea_detection/train.log" />
         <option value="$PROJECT_DIR$/paper_data/utils/__init__.py" />
         <option value="$PROJECT_DIR$/paper_data/dme_explainable.sh" />
@@ -357,13 +358,16 @@
         <option value="$PROJECT_DIR$/paper_data/idrid/od_and_fovea_detector_random_sample.sh" />
         <option value="$PROJECT_DIR$/paper_data/od_and_fovea_detector_random_sample.sh" />
         <option value="$PROJECT_DIR$/.gitignore" />
+        <option value="$PROJECT_DIR$/paper_data/predict_common.py" />
+        <option value="$PROJECT_DIR$/paper_data/od_and_fovea_detector_random_sample.py" />
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds">
-    <option name="y" value="27" />
+  <component name="ProjectFrameBounds" extendedState="6">
+    <option name="x" value="1920" />
+    <option name="y" value="-1" />
     <option name="width" value="1920" />
-    <option name="height" value="1173" />
+    <option name="height" value="1033" />
   </component>
   <component name="ProjectView">
     <navigator currentView="ProjectPane" proportions="" version="1">
@@ -380,6 +384,8 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
+      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -402,8 +408,6 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
-      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -696,17 +700,16 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="27" width="1920" height="1173" extended-state="0" />
-    <editor active="true" />
+    <frame x="1920" y="-1" width="1920" height="1033" extended-state="6" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2278481" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.21835443" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.23763336" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3297769" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25762045" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2041049" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4582104" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -864,32 +867,32 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/paper_data/predict_common.py</url>
-          <line>429</line>
+          <line>497</line>
           <option name="timeStamp" value="174" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/paper_data/od_and_fovea_detector_random_sample.py</url>
-          <line>89</line>
+          <line>91</line>
           <option name="timeStamp" value="177" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/paper_data/od_and_fovea_detector_random_sample.py</url>
-          <line>135</line>
+          <line>137</line>
           <option name="timeStamp" value="188" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/paper_data/od_and_fovea_detector_random_sample.py</url>
-          <line>138</line>
+          <line>140</line>
           <option name="timeStamp" value="190" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/paper_data/od_and_fovea_detector_random_sample.py</url>
-          <line>139</line>
+          <line>141</line>
           <option name="timeStamp" value="191" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/paper_data/od_and_fovea_detector_random_sample.py</url>
-          <line>224</line>
+          <line>273</line>
           <option name="timeStamp" value="192" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
@@ -925,32 +928,6 @@
     </watches-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/paper_data/test.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
-          <caret line="18" column="20" lean-forward="false" selection-start-line="18" selection-start-column="16" selection-end-line="18" selection-end-column="20" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/paper_data/raw_data_scale.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="480">
-          <caret line="32" column="43" lean-forward="false" selection-start-line="32" selection-start-column="43" selection-end-line="32" selection-end-column="43" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/paper_data/data/ex_512/118.png">
-      <provider selected="true" editor-type-id="images">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/paper_data/data/ex_512/143.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/paper_data/data/ex_512/143.png">
       <provider selected="true" editor-type-id="images">
         <state />
@@ -1062,18 +1039,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/paper_data/od_s_detector_random_sample.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-556">
-          <caret line="369" column="0" lean-forward="false" selection-start-line="369" selection-start-column="0" selection-end-line="406" selection-end-column="0" />
-          <folding>
-            <element signature="e#44#53#0" expanded="false" />
-            <element signature="e#9249#13876#0" expanded="false" />
-            <element signature="e#16262#17664#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/paper_data/fovea_detector_random_sample.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="10170">
@@ -1170,40 +1135,10 @@
         <state />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/paper_data/dme_explainable.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="325">
-          <caret line="274" column="74" lean-forward="false" selection-start-line="274" selection-start-column="74" selection-end-line="274" selection-end-column="74" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/paper_data/dme_explainable.sh">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="54">
           <caret line="3" column="13" lean-forward="false" selection-start-line="3" selection-start-column="13" selection-end-line="3" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/paper_data/od_s_detector_random_sample.sh">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="18">
-          <caret line="1" column="250" lean-forward="false" selection-start-line="1" selection-start-column="250" selection-end-line="1" selection-end-column="250" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/paper_data/predict_common.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1224">
-          <caret line="152" column="27" lean-forward="false" selection-start-line="152" selection-start-column="23" selection-end-line="152" selection-end-column="27" />
-          <folding>
-            <element signature="e#564#1497#0" expanded="false" />
-            <element signature="e#2485#2744#0" expanded="false" />
-            <element signature="e#3079#3445#0" expanded="false" />
-            <element signature="e#3489#5982#0" expanded="false" />
-            <element signature="e#9328#9972#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1242,15 +1177,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="180">
           <caret line="10" column="282" lean-forward="false" selection-start-line="10" selection-start-column="282" selection-end-line="10" selection-end-column="282" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/paper_data/od_and_fovea_detector_random_sample.sh">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="18">
-          <caret line="1" column="0" lean-forward="false" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1258,7 +1184,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="684">
           <caret line="42" column="0" lean-forward="false" selection-start-line="42" selection-start-column="0" selection-end-line="42" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1266,7 +1191,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="2502">
           <caret line="146" column="0" lean-forward="false" selection-start-line="146" selection-start-column="0" selection-end-line="146" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1278,10 +1202,68 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$USER_HOME$/anaconda3/lib/python3.6/site-packages/torch/cuda/nccl.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3564">
+          <caret line="202" column="30" lean-forward="false" selection-start-line="202" selection-start-column="30" selection-end-line="202" selection-end-column="30" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.gitignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="126">
+          <caret line="7" column="17" lean-forward="false" selection-start-line="7" selection-start-column="17" selection-end-line="7" selection-end-column="17" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/paper_data/od_s_detector_random_sample.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="7650">
+          <caret line="554" column="18" lean-forward="false" selection-start-line="554" selection-start-column="12" selection-end-line="554" selection-end-column="18" />
+          <folding>
+            <element signature="e#9249#13876#0" expanded="false" />
+            <element signature="e#16262#17664#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/paper_data/od_s_detector_random_sample.sh">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="18">
+          <caret line="1" column="259" lean-forward="false" selection-start-line="1" selection-start-column="259" selection-end-line="1" selection-end-column="259" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/paper_data/predict_common.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2520">
+          <caret line="250" column="36" lean-forward="false" selection-start-line="250" selection-start-column="6" selection-end-line="250" selection-end-column="36" />
+          <folding>
+            <element signature="e#564#1497#0" expanded="false" />
+            <element signature="e#2485#2744#0" expanded="false" />
+            <element signature="e#3079#3445#0" expanded="false" />
+            <element signature="e#3489#5982#0" expanded="false" />
+            <element signature="e#7766#9214#0" expanded="false" />
+            <element signature="e#11769#12413#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/paper_data/od_and_fovea_detector_random_sample.sh">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/paper_data/od_detector_random_sample.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="321">
-          <caret line="556" column="7" lean-forward="false" selection-start-line="556" selection-start-column="7" selection-end-line="556" selection-end-column="7" />
+          <caret line="556" column="10" lean-forward="false" selection-start-line="556" selection-start-column="10" selection-end-line="556" selection-end-column="10" />
           <folding>
             <element signature="e#2685#8847#0" expanded="false" />
             <element signature="e#4122#6620#0" expanded="false" />
@@ -1295,26 +1277,54 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$USER_HOME$/anaconda3/lib/python3.6/site-packages/torch/cuda/nccl.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="407">
-          <caret line="202" column="30" lean-forward="false" selection-start-line="202" selection-start-column="30" selection-end-line="202" selection-end-column="30" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/paper_data/od_and_fovea_detector_random_sample.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="394">
-          <caret line="260" column="40" lean-forward="false" selection-start-line="260" selection-start-column="17" selection-end-line="260" selection-end-column="40" />
+        <state relative-caret-position="3690">
+          <caret line="205" column="26" lean-forward="false" selection-start-line="205" selection-start-column="19" selection-end-line="205" selection-end-column="26" />
+          <folding>
+            <element signature="e#44#53#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../DiabeticRetinopathy_solution/paper_data/single_channel_multi_task_cls_concatenate.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/.gitignore">
+    <entry file="file://$PROJECT_DIR$/../DiabeticRetinopathy_solution/paper_data/single_channel_multi_task_cls_concatenate_roc.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="126">
-          <caret line="7" column="17" lean-forward="false" selection-start-line="7" selection-start-column="17" selection-end-line="7" selection-end-column="17" />
+        <state relative-caret-position="17190">
+          <caret line="955" column="22" lean-forward="false" selection-start-line="955" selection-start-column="22" selection-end-line="955" selection-end-column="22" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/anaconda3/lib/python3.6/site-packages/sklearn/metrics/ranking.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="257">
+          <caret line="430" column="54" lean-forward="false" selection-start-line="430" selection-start-column="54" selection-end-line="430" selection-end-column="54" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/paper_data/fovea_detector.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2268">
+          <caret line="165" column="53" lean-forward="false" selection-start-line="165" selection-start-column="43" selection-end-line="165" selection-end-column="53" />
+          <folding>
+            <element signature="e#3952#6451#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/paper_data/dme_explainable.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="319">
+          <caret line="478" column="43" lean-forward="false" selection-start-line="478" selection-start-column="43" selection-end-line="478" selection-end-column="43" />
           <folding />
         </state>
       </provider>

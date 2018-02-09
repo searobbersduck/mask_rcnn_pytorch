@@ -222,6 +222,74 @@ def test_DRDetection_predict_raw():
         cv2.imshow('test', cv_image)
         cv2.waitKey(2000)
 
+# predict image folder with suffix '.jpg'
+class DRDetection_predict_jpg_folder(Dataset):
+    def __init__(self, root, scale_size=None):
+        self.root = root
+        self.scale_size = scale_size
+        self.transform = transforms.Compose([
+            PILColorJitter(),
+            transforms.ToTensor(),
+            # Lighting(alphastd=0.01, eigval=eigen_values, eigvec=eigen_values),
+            transforms.Normalize(mean=[0.485, 0.456, 0.406],
+                                 std=[0.229, 0.224, 0.225])
+        ])
+        self.img_list = glob(os.path.join(root, '*.jpg'))
+        # img_list = [i.split('.')[0] for i in img_list]
+
+    def __getitem__(self, item):
+        image_path = self.img_list[item]
+        print(image_path)
+        img = Image.open(image_path)
+        img, l, u, ratio = scale_image(img, self.scale_size)
+        img = self.transform(img)
+        return img, image_path, [l,u,ratio]
+
+    def __len__(self):
+        return len(self.img_list)
+
+class DRDetection_predict_png_folder(Dataset):
+    def __init__(self, root, scale_size=None):
+        self.root = root
+        self.scale_size = scale_size
+        self.transform = transforms.Compose([
+            PILColorJitter(),
+            transforms.ToTensor(),
+            # Lighting(alphastd=0.01, eigval=eigen_values, eigvec=eigen_values),
+            transforms.Normalize(mean=[0.485, 0.456, 0.406],
+                                 std=[0.229, 0.224, 0.225])
+        ])
+        self.img_list = glob(os.path.join(root, '*.png'))
+        # img_list = [i.split('.')[0] for i in img_list]
+
+    def __getitem__(self, item):
+        image_path = self.img_list[item]
+        print(image_path)
+        img = Image.open(image_path)
+        img, l, u, ratio = scale_image(img, self.scale_size)
+        img = self.transform(img)
+        return img, image_path, [l,u,ratio]
+
+    def __len__(self):
+        return len(self.img_list)
+
+# predict single image with
+
+def DRDetection_predict_single_image(imagepath, scale_size=None):
+    transform = transforms.Compose([
+        PILColorJitter(),
+        transforms.ToTensor(),
+        # Lighting(alphastd=0.01, eigval=eigen_values, eigvec=eigen_values),
+        transforms.Normalize(mean=[0.485, 0.456, 0.406],
+                             std=[0.229, 0.224, 0.225])
+    ])
+    img = Image.open(imagepath)
+    img, l, u, ratio = scale_image(img, scale_size)
+    img = transform(img)
+    return img, imagepath, [l,u,ratio]
+
+
+
 # check predicted fovea validation
 def get_detect_fovea_array(predict_pts, gt_pts, gt_od_bboxs, thres=0.5):
     assert predict_pts.shape[0] == gt_pts.shape[0] == gt_od_bboxs.shape[0]
