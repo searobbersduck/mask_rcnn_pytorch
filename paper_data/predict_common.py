@@ -372,8 +372,8 @@ class DRDetectionDS_xml(Dataset):
         self.classid = ['optic_dis', 'macular']
         ann_list = glob(os.path.join(ann_root, '*.xml'))
         img_list = glob(os.path.join(root, '*.png'))
-        img_list = [i.split('.')[0] for i in img_list]
-        ann_list = [i.split('.')[0] for i in ann_list]
+        img_list = [os.path.basename(i).split('.')[0] for i in img_list]
+        ann_list = [os.path.basename(i).split('.')[0] for i in ann_list]
         self.data_list = []
         self.ann_info_list = []
         self.bboxs_list = []
@@ -523,8 +523,8 @@ class DRDetectionDS_predict_xml(Dataset):
         self.classid = ['optic_dis', 'macular']
         ann_list = glob(os.path.join(ann_root, '*.xml'))
         img_list = glob(os.path.join(root, '*.png'))
-        img_list = [i.split('.')[0] for i in img_list]
-        ann_list = [i.split('.')[0] for i in ann_list]
+        img_list = [os.path.basename(i).split('.')[0] for i in img_list]
+        ann_list = [os.path.basename(i).split('.')[0] for i in ann_list]
         self.data_list = []
         self.ann_info_list = []
         self.bboxs_list = []
